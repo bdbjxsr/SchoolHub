@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/SchoolHubBaseTheme" >
+        android:theme="@style/Base.SchoolHub" >
         <activity
             android:name=".view.activity.EntranceActivity"
             android:label="@string/app_name" >
@@ -25,18 +25,20 @@
         </activity>
 
         <activity android:name=".view.activity.AuthenticateActivity"
-            android:theme="@style/SchoolHubBaseTheme.NoActionBar"/>
+            android:theme="@style/Base.SchoolHub.NoActionBar"/>
 
         <activity
             android:name=".view.activity.MainActivity"/>
 
         <activity
             android:name=".view.activity.LoginActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:theme="@style/Base.SchoolHub.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
             android:name=".view.activity.SignupActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:theme="@style/Base.SchoolHub.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
     </application>
 

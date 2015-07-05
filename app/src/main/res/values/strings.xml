@@ -8,4 +8,8 @@
     <string name="label_forgot_password">Forgot Password?</string>
     <string name="label_auth_textview">Collect all your friends\' photos and videos in one single online album</string>
     <string name="label_signup_button">SIGN UP</string>
+    <string name="hint_email_edittext">Email</string>
+    <string name="hint_fullname_edittext">Fullname</string>
+    <string name="label_show_button">show</string>
+    <string name="hint_school_name_edittext">School Name</string>
 </resources>

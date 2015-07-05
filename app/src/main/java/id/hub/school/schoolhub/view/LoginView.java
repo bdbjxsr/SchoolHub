@@ -1,8 +1,17 @@
 package id.hub.school.schoolhub.view;
 
 public interface LoginView extends LoadDataView {
-    void showUsernameError();
+    void showStudentNumberError(String message);
 
-    void showPasswordError();
+    void showPasswordError(String message);
 
+    void showLoadingView();
+
+    void hideLoadingView();
+
+    void navigateToMainActivity();
+
+    String getStudentNumber();
+
+    String getPassword();
 }
