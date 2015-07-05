@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/navHome"
+            android:title="Home"/>
+        <item
+            android:id="@+id/navEvents"
+            android:title="Events"/>
+
+        <item
+            android:id="@+id/navSchedule"
+            android:title="Schedule"/>
+
+        <item
+            android:id="@+id/navDiscussion"
+            android:title="Discussion Room"/>
+
+        <item
+            android:id="@+id/navSignOut"
+            android:title="Sign Out"/>
+    </group>
+
+</menu>

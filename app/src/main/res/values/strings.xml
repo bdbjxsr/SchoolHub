@@ -12,4 +12,5 @@
     <string name="hint_fullname_edittext">Fullname</string>
     <string name="label_show_button">show</string>
     <string name="hint_school_name_edittext">School Name</string>
+    <string name="message_loading">Loading...</string>
 </resources>

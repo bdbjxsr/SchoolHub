@@ -22,7 +22,7 @@ import id.hub.school.schoolhub.view.fragment.SettingsFragment.Controller;
 
 import static android.support.design.widget.NavigationView.*;
 
-public final class MainActivity extends BaseActivity implements Controller {
+public final class MainNavigationViewActivity extends BaseActivity implements Controller {
 
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.navigation) NavigationView navigationView;
@@ -100,25 +100,21 @@ public final class MainActivity extends BaseActivity implements Controller {
 
     @Override
     public void replaceWithHomeFragment() {
-        toolbar.setTitle(getString(R.string.app_name));
         openFragment(new HomeFragment());
     }
 
     @Override
     public void replaceWithEventsFragment() {
-        toolbar.setTitle("Events");
         openFragment(new EventsFragment());
     }
 
     @Override
     public void replaceWithScheduleFragment() {
-        toolbar.setTitle("Schedule");
         openFragment(new ScheduleFragment());
     }
 
     @Override
     public void replaceWithDiscussionFragment() {
-        toolbar.setTitle("Discussion Room");
         openFragment(new DiscussionFragment());
     }
 

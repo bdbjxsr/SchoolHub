@@ -31,6 +31,9 @@
             android:name=".view.activity.MainActivity"/>
 
         <activity
+            android:name=".view.activity.MainNavigationViewActivity"/>
+
+        <activity
             android:name=".view.activity.LoginActivity"
             android:theme="@style/Base.SchoolHub.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>

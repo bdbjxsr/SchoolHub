@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:orientation="vertical"
     android:background="@android:color/holo_orange_light"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -11,8 +11,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        />
+        android:layout_marginTop="16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,12 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="Akash Bangad"
+            android:text="Fajar Purwo Nugroho"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="bold"
-
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/email"
@@ -37,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="5dp"
-            android:text="akash.bangad93@gmail.com"
+            android:text="SMA NEGERI 14 JAKARTA"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="normal"
