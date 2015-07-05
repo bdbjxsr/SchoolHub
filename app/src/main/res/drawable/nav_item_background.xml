@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_selected="true" android:state_pressed="true">
+        <layer-list>
+            <item android:drawable="@drawable/nav_item_background_normal"/>
+            <item android:drawable="@drawable/nav_item_mask_light"/>
+        </layer-list>
+    </item>
+    <item android:drawable="@drawable/nav_item_background_normal"/>
+</selector>

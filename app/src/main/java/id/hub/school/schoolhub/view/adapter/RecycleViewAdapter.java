@@ -4,11 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
 
@@ -20,13 +18,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private String navTitle[];
 
     private String name;
-    private int profile;
+    private String profilePictUrl;
     private String email;
 
-    public RecycleViewAdapter(String[] navTitle, String name, int profile, String email) {
+    public RecycleViewAdapter(String[] navTitle, String name, String profilePicUrl, String email) {
         this.navTitle = navTitle;
         this.name = name;
-        this.profile = profile;
+        this.profilePictUrl = profilePicUrl;
         this.email = email;
     }
 
@@ -50,24 +48,34 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if (viewHolder.holderId == 1) {
-            viewHolder.rowText.setText(navTitle[i]);
+            viewHolder.rowText.setText(navTitle[i - 1]);
         } else {
-            viewHolder.circleImageView.setImageResource(R.drawable.button_login);
-            viewHolder.name.setText("Siswa Teladan");
-            viewHolder.email.setText("SMA Negeri 14 Jakarta");
+            viewHolder.name.setText(name);
+            viewHolder.email.setText(email);
         }
     }
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return navTitle.length+1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        if (positionHeader(position)) {
+            return TYPE_HEADER;
+        }
+        return TYPE_ITEM;
+    }
+
+    private boolean positionHeader(int position) {
+        return position == 0;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         int holderId;
 
-        ImageView rowIcon;
         TextView rowText;
 
         CircleImageView circleImageView;
@@ -87,7 +95,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         }
 
         private void injectItemView(View view) {
-            rowIcon = ButterKnife.findById(view, R.id.row_icon);
             rowText = ButterKnife.findById(view, R.id.row_text);
         }
 
