@@ -1,9 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="SchoolHubBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColor">@android:color/black</item>
     </style>
+
+    <style name="SchoolHubBaseTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"/>
 
     <style name="Base.SchoolHub.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:fontFamily">sans-serif-light</item>

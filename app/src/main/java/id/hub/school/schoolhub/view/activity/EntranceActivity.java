@@ -21,7 +21,7 @@ public final class EntranceActivity extends BaseActivity implements EntranceView
         if (accountPreferences.accountID() != -1) {
             navigateToMainActivity();
         } else {
-            navigateToLoginActivity();
+            navigateToAuthenticateAcivity();
         }
     }
 
@@ -33,8 +33,8 @@ public final class EntranceActivity extends BaseActivity implements EntranceView
     }
 
     @Override
-    public void navigateToLoginActivity() {
-        startActivity(new Intent(this, LoginActivity.class));
+    public void navigateToAuthenticateAcivity() {
+        startActivity(new Intent(this, AuthenticateActivity.class));
         finish();
     }
 }
