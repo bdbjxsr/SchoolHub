@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_primary">#8BC34A</color>
+    <color name="color_secondary">#4CAF50</color>
+    <color name="color_primary_light">#DCEDC8</color>
+
+    <!-- Mask for light theme-->
+    <color name="selectable_light_mask">#1f000000</color>
+</resources>

@@ -25,9 +25,7 @@ public class AccountPreferences {
                 Context.MODE_PRIVATE);
     }
 
-    public SharedPreferences getSharedPreferences() {
-        return sharedPreferences;
-    }
+    public SharedPreferences getSharedPreferences() { return sharedPreferences; }
 
     public void setAccountName(String accountName) {
         getSharedPreferences().edit().putString(KEY_USERNAME, accountName).apply();
@@ -42,7 +40,7 @@ public class AccountPreferences {
     }
 
     public long accountID() {
-        return getSharedPreferences().getLong(KEY_ID, 0);
+        return getSharedPreferences().getLong(KEY_ID, -1);
     }
 
 

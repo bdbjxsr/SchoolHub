@@ -18,10 +18,10 @@ public final class EntranceActivity extends BaseActivity implements EntranceView
         super.onCreate(savedInstanceState);
         SchoolHubApp.get(this).component().inject(this);
 
-        if (accountPreferences.accountID() != 0) {
+        if (accountPreferences.accountID() != -1) {
             navigateToMainActivity();
         } else {
-            navigateToMainActivity();
+            navigateToLoginActivity();
         }
     }
 

@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId "id.hub.school.schoolhub"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 22
 
         versionCode version.major * 10000 + version.minor * 1000 + version.patch * 100 + version.build

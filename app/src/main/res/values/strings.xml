@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">School Hub</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="label_login_button">LOG IN</string>
+    <string name="hint_nis_edittext">Student Number</string>
+    <string name="hint_password_edittext">Password</string>
+    <string name="label_forgot_password">Forgot Password?</string>
+    <string name="label_auth_textview">Collect all your friends\' photos and videos in one single online album</string>
+    <string name="label_signup_button">SIGN UP</string>
 </resources>

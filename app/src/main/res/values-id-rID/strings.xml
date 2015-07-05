@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Pengaturan</string>
+    <string name="label_login_button">Masuk</string>
+    <string name="hint_nis_edittext">Nomor Induk Siswa</string>
+    <string name="hint_password_edittext">Kata Sandi</string>
+    <string name="label_forgot_password">Lupa kata sandi?</string>
+</resources>
