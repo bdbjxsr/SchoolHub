@@ -3,6 +3,8 @@ package id.hub.school.schoolhub.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.parse.ParseUser;
+
 import javax.inject.Inject;
 
 import id.hub.school.schoolhub.SchoolHubApp;
@@ -18,7 +20,7 @@ public final class EntranceActivity extends BaseActivity implements EntranceView
         super.onCreate(savedInstanceState);
         SchoolHubApp.get(this).component().inject(this);
 
-        if (accountPreferences.accountID() != -1) {
+        if (ParseUser.getCurrentUser() != null) {
             navigateToMainActivity();
         } else {
             navigateToAuthenticateAcivity();

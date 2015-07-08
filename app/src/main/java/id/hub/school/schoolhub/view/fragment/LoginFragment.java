@@ -22,6 +22,7 @@ import id.hub.school.schoolhub.view.LoginView;
 
 public final class LoginFragment extends BaseFragment implements LoginView {
 
+    private static final String LOADING_TAG = "loading_tag";
     @InjectView(R.id.nis) EditText nisEditText;
     @InjectView(R.id.password) EditText passwordEditText;
 
@@ -73,12 +74,13 @@ public final class LoginFragment extends BaseFragment implements LoginView {
 
     @Override
     public void showLoadingView() {
-
+        ProgressDialogFragment.show(getString(R.string.message_loading),
+                getFragmentManager(), LOADING_TAG);
     }
 
     @Override
     public void hideLoadingView() {
-
+        ProgressDialogFragment.dismiss(getFragmentManager(), LOADING_TAG);
     }
 
     @Override

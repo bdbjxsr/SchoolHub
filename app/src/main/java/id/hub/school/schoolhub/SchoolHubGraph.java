@@ -1,6 +1,7 @@
 package id.hub.school.schoolhub;
 
 import id.hub.school.schoolhub.view.activity.EntranceActivity;
+import id.hub.school.schoolhub.view.adapter.AutoCompleteParseAdapter;
 import id.hub.school.schoolhub.view.fragment.AuthenticateFragment;
 import id.hub.school.schoolhub.view.fragment.LoginFragment;
 import id.hub.school.schoolhub.view.fragment.SettingsFragment;
@@ -18,4 +19,6 @@ public interface SchoolHubGraph {
     void inject(SignupFragment fragment);
 
     void inject(SettingsFragment fragment);
+
+    void inject(AutoCompleteParseAdapter autoCompleteParseAdapter);
 }

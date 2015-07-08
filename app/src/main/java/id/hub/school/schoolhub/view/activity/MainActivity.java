@@ -1,5 +1,7 @@
 package id.hub.school.schoolhub.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,21 +11,30 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.EventsFragment;
 import id.hub.school.schoolhub.view.fragment.HomeFragment;
+import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
 import id.hub.school.schoolhub.view.fragment.SettingsFragment;
 import id.hub.school.schoolhub.view.fragment.SettingsFragment.Controller;
 
 import static android.support.design.widget.NavigationView.*;
 
-public final class MainActivity extends BaseActivity implements Controller {
+public final class MainActivity extends BaseActivity implements MainView, Controller {
 
+    public static final String TAG_LOADING = "loading";
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.navigation) NavigationView navigationView;
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -59,9 +70,6 @@ public final class MainActivity extends BaseActivity implements Controller {
                     case R.id.navHome:
                         replaceWithHomeFragment();
                         break;
-                    case R.id.navEvents:
-                        replaceWithEventsFragment();
-                        break;
                     case R.id.navSchedule:
                         replaceWithScheduleFragment();
                         break;
@@ -69,6 +77,7 @@ public final class MainActivity extends BaseActivity implements Controller {
                         replaceWithDiscussionFragment();
                         break;
                     case R.id.navSignOut:
+                        signOutApplication();
                         break;
                 }
                 return true;
@@ -77,6 +86,24 @@ public final class MainActivity extends BaseActivity implements Controller {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, 0, 0);
 
         drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    private void signOutApplication() {
+        showLoading();
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                hideLoading();
+                if (e == null) {
+                    Intent intent = new Intent(MainActivity.this, EntranceActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    showError(e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
@@ -105,12 +132,6 @@ public final class MainActivity extends BaseActivity implements Controller {
     }
 
     @Override
-    public void replaceWithEventsFragment() {
-        toolbar.setTitle("Events");
-        openFragment(new EventsFragment());
-    }
-
-    @Override
     public void replaceWithScheduleFragment() {
         toolbar.setTitle("Schedule");
         openFragment(new ScheduleFragment());
@@ -126,5 +147,46 @@ public final class MainActivity extends BaseActivity implements Controller {
         drawerLayout.closeDrawers();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment).commit();
+    }
+
+    @Override
+    public void showLoading() {
+        ProgressDialogFragment.show(getString(R.string.message_loading),
+                getSupportFragmentManager(), TAG_LOADING);
+    }
+
+    @Override
+    public void hideLoading() {
+        ProgressDialogFragment.dismiss(getSupportFragmentManager(), TAG_LOADING);
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showRetry() {
+
+    }
+
+    @Override
+    public void hideRetry() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public Context getContext() {
+        return null;
     }
 }

@@ -59,9 +59,6 @@ public final class MainNavigationViewActivity extends BaseActivity implements Co
                     case R.id.navHome:
                         replaceWithHomeFragment();
                         break;
-                    case R.id.navEvents:
-                        replaceWithEventsFragment();
-                        break;
                     case R.id.navSchedule:
                         replaceWithScheduleFragment();
                         break;
@@ -101,11 +98,6 @@ public final class MainNavigationViewActivity extends BaseActivity implements Co
     @Override
     public void replaceWithHomeFragment() {
         openFragment(new HomeFragment());
-    }
-
-    @Override
-    public void replaceWithEventsFragment() {
-        openFragment(new EventsFragment());
     }
 
     @Override

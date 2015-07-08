@@ -28,18 +28,21 @@ public class LoginPresenter implements BasePresenter, LoginFinishListener {
     public void destroy() {}
 
     public void onLoginButtonClick() {
+        loginView.showLoadingView();
         loginInteractor.validateCredentials(loginView.getStudentNumber(),
                 loginView.getPassword(), this);
     }
 
     @Override
     public void onSuccessLogin() {
+        loginView.hideLoadingView();
         loginView.navigateToMainActivity();
     }
 
     @Override
     public void onFailedLogin(Exception e) {
-
+        loginView.hideLoadingView();
+        loginView.showError(e.getMessage());
     }
 
     @Override

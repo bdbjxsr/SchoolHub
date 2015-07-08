@@ -98,9 +98,7 @@ public class SettingsFragment extends BaseFragment implements SettingsView, OnIt
     }
 
     @Override
-    public void showEventsFragment() {
-        controller.replaceWithEventsFragment();
-    }
+    public void showEventsFragment() {}
 
     @Override
     public void showScheduleFragment() {
@@ -114,8 +112,6 @@ public class SettingsFragment extends BaseFragment implements SettingsView, OnIt
 
     public interface Controller {
         void replaceWithHomeFragment();
-
-        void replaceWithEventsFragment();
 
         void replaceWithScheduleFragment();
 

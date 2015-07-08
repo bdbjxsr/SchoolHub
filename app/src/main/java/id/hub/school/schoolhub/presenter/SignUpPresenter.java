@@ -1,5 +1,7 @@
 package id.hub.school.schoolhub.presenter;
 
+import android.widget.CompoundButton;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -35,18 +37,21 @@ public class SignUpPresenter implements BasePresenter, SignUpFinishListener {
     }
 
     public void onSignUpClick() {
+        signupView.showLoadingView();
         signUpInteractor.registerNewStudent(signupView.getStudentNumber(),
                 signupView.getSchoolName(), signupView.getFullName(), signupView.getPassword(), this);
     }
 
     @Override
     public void onSuccessRegister() {
+        signupView.hideLoadingView();
         signupView.navigateToMainActivity();
     }
 
     @Override
-    public void onFailedRegister() {
-
+    public void onFailedRegister(Exception e) {
+        signupView.hideLoadingView();
+        signupView.showError(e.getMessage());
     }
 
     @Override
@@ -57,6 +62,10 @@ public class SignUpPresenter implements BasePresenter, SignUpFinishListener {
     @Override
     public void onSchoolNameError() {
         signupView.showSchoolNameError("School name cannot be empty.");
+    }
+
+    public void onShowPasswordCheckedChange(CompoundButton view) {
+        signupView.toogleShowHidePassword(view.isChecked());
     }
 
     @Override

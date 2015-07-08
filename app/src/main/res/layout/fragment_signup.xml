@@ -9,15 +9,15 @@
     android:paddingLeft="24dp"
     android:paddingRight="24dp">
 
-    <EditText
-        android:id="@+id/school_name"
+    <AutoCompleteTextView
+        android:id="@+id/autocompleteSchoolName"
         style="@style/Base.SchoolHub.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_background"
         android:hint="@string/hint_school_name_edittext"
         android:inputType="textCapWords"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <android.support.v4.widget.Space
         android:layout_width="0dp"
@@ -68,6 +68,7 @@
             tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <CheckBox
+            android:id="@+id/show_password"
             android:layout_width="80dp"
             android:layout_height="48dp"
             android:layout_gravity="right"

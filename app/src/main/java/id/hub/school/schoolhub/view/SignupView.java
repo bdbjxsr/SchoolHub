@@ -9,7 +9,7 @@ public interface SignupView extends LoadDataView {
 
     void showPasswordError(String message);
 
-    void toogleShowHidePassword();
+    void toogleShowHidePassword(boolean checked);
 
     void showLoadingView();
 
