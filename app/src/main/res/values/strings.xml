@@ -14,6 +14,7 @@
     <string name="hint_school_name_edittext">School Name</string>
     <string name="message_loading">Loading...</string>
     <string name="label_hide_button">hide</string>
+    <string name="label_action_new_room">New Room</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

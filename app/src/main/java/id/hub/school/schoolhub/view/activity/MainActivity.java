@@ -23,18 +23,18 @@ import butterknife.InjectView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
-import id.hub.school.schoolhub.view.fragment.EventsFragment;
 import id.hub.school.schoolhub.view.fragment.HomeFragment;
 import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
 import id.hub.school.schoolhub.view.fragment.SettingsFragment;
-import id.hub.school.schoolhub.view.fragment.SettingsFragment.Controller;
 
 import static android.support.design.widget.NavigationView.*;
 
-public final class MainActivity extends BaseActivity implements MainView, Controller {
+public final class MainActivity extends BaseActivity implements MainView,
+        SettingsFragment.Controller, DiscussionFragment.Controller {
 
     public static final String TAG_LOADING = "loading";
+    public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.navigation) NavigationView navigationView;
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -112,8 +112,6 @@ public final class MainActivity extends BaseActivity implements MainView, Contro
         drawerToggle.syncState();
     }
 
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -123,6 +121,14 @@ public final class MainActivity extends BaseActivity implements MainView, Contro
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_DISCUSSION_FORM) {
+            // TODO fajar: call interactor to reload list discussion room from fragment presenter
+        }
     }
 
     @Override
@@ -188,5 +194,11 @@ public final class MainActivity extends BaseActivity implements MainView, Contro
     @Override
     public Context getContext() {
         return null;
+    }
+
+    @Override
+    public void navigateToCreateDiscussion() {
+        startActivityForResult(new Intent(this, DiscussionFormActivity.class),
+                REQUEST_CODE_DISCUSSION_FORM);
     }
 }

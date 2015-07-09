@@ -10,7 +10,7 @@ import id.hub.school.schoolhub.view.fragment.SchedulePageFragment;
 public class SchedulePageAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 5;
 
-    private String tabTitle[] = new String[]{"Monday", "Tuesday", "Wednesday", "Thurday", "Friday"};
+    private String tabTitle[] = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 
     private Context context;
 

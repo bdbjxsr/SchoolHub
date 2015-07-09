@@ -78,7 +78,6 @@ public class AutoCompleteParseAdapter extends ArrayAdapter<Sekolah.Results> impl
                     filterResults.count = listResult.size();
                 }
                 return filterResults;
-
             }
 
             @Override

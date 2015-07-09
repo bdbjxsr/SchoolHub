@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.hub.school.schoolhub" >
+    package="id.hub.school.schoolhub">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -14,10 +14,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Base.SchoolHub.NoActionBar" >
+        android:theme="@style/Base.SchoolHub.NoActionBar">
         <activity
             android:name=".view.activity.EntranceActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,24 +25,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.AuthenticateActivity"
-            android:theme="@style/Base.SchoolHub.NoActionBar"/>
+        <activity android:name=".view.activity.AuthenticateActivity" />
 
-        <activity
-            android:name=".view.activity.MainActivity"/>
+        <activity android:name=".view.activity.MainActivity" />
 
-        <activity
-            android:name=".view.activity.MainNavigationViewActivity"/>
+        <activity android:name=".view.activity.MainNavigationViewActivity" />
 
         <activity
             android:name=".view.activity.LoginActivity"
-            android:theme="@style/Base.SchoolHub.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name=".view.activity.SignupActivity"
-            android:theme="@style/Base.SchoolHub.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity android:name=".view.activity.DiscussionFormActivity" />
 
     </application>
 
