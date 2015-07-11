@@ -2,6 +2,7 @@ package id.hub.school.schoolhub.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import id.hub.school.schoolhub.view.fragment.SignupFragment;
 import id.hub.school.schoolhub.view.fragment.SignupFragment.Controller;
@@ -26,4 +27,7 @@ public class SignupActivity extends BaseActivity implements Controller {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void setupToolbar(Toolbar toolbar) {}
 }

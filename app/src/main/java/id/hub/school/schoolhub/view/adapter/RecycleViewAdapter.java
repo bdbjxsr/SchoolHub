@@ -51,7 +51,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             viewHolder.rowText.setText(navTitle[i - 1]);
         } else {
             viewHolder.name.setText(name);
-            viewHolder.email.setText(email);
         }
     }
 
@@ -80,7 +79,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         CircleImageView circleImageView;
         TextView name;
-        TextView email;
 
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
@@ -101,7 +99,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         private void injectHeaderView(View view) {
             circleImageView = ButterKnife.findById(view, R.id.circleview);
             name = ButterKnife.findById(view, R.id.name);
-            email = ButterKnife.findById(view, R.id.email);
         }
     }
 }

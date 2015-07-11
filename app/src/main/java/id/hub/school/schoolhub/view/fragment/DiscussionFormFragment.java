@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,15 @@ import android.widget.Toast;
 import java.io.File;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.view.DiscussionFormView;
+import id.hub.school.schoolhub.view.activity.DiscussionFormActivity;
 
 public class DiscussionFormFragment extends BaseFragment implements DiscussionFormView {
+
+    @InjectView(R.id.action_bar) Toolbar toolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,12 @@ public class DiscussionFormFragment extends BaseFragment implements DiscussionFo
         View view = inflater.inflate(R.layout.fragment_discussion_form, container, false);
         ButterKnife.inject(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ((DiscussionFormActivity) getActivity()).setupToolbar(toolbar);
     }
 
     @Override

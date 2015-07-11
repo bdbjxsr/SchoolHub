@@ -2,6 +2,7 @@ package id.hub.school.schoolhub.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.parse.ParseUser;
 
@@ -39,4 +40,7 @@ public final class EntranceActivity extends BaseActivity implements EntranceView
         startActivity(new Intent(this, AuthenticateActivity.class));
         finish();
     }
+
+    @Override
+    public void setupToolbar(Toolbar toolbar) {}
 }

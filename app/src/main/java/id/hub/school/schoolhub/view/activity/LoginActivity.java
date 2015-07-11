@@ -2,6 +2,8 @@ package id.hub.school.schoolhub.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+
 import id.hub.school.schoolhub.view.fragment.LoginFragment;
 
 import static id.hub.school.schoolhub.view.fragment.LoginFragment.*;
@@ -29,4 +31,7 @@ public final class LoginActivity extends BaseActivity implements Controller {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void setupToolbar(Toolbar toolbar) {}
 }

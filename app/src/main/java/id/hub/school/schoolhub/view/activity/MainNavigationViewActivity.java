@@ -36,20 +36,9 @@ public final class MainNavigationViewActivity extends BaseActivity implements Co
         setContentView(R.layout.activity_main_with_navigation_view);
         ButterKnife.inject(this);
 
-        setupToolbar();
+        setupToolbar(toolbar);
         setupNavigationDrawer();
     }
-
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) {
-            throw new IllegalStateException("Action bar must not be null.");
-        }
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-    }
-
 
     private void setupNavigationDrawer() {
         navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
@@ -114,5 +103,16 @@ public final class MainNavigationViewActivity extends BaseActivity implements Co
         drawerLayout.closeDrawers();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment).commit();
+    }
+
+    @Override
+    public void setupToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            throw new IllegalStateException("Action bar must not be null.");
+        }
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 }

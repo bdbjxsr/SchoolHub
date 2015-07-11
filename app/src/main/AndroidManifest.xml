@@ -39,7 +39,8 @@
             android:name=".view.activity.SignupActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <activity android:name=".view.activity.DiscussionFormActivity" />
+        <activity android:name=".view.activity.DiscussionFormActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
     </application>
 

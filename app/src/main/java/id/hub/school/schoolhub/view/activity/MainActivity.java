@@ -11,16 +11,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.libs.CircleTransform;
 import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.HomeFragment;
@@ -35,9 +39,14 @@ public final class MainActivity extends BaseActivity implements MainView,
 
     public static final String TAG_LOADING = "loading";
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
+    public static final String AVATAR_URL = "http://lorempixel.com/200/200/people/1/";
+
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.navigation) NavigationView navigationView;
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @InjectView(R.id.circleview) CircleImageView circleImageView;
+    @InjectView(R.id.name) TextView nameTextView;
+    @InjectView(R.id.schoolname) TextView schoolNameTextView;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -47,22 +56,14 @@ public final class MainActivity extends BaseActivity implements MainView,
         setContentView(R.layout.activity_main_with_navigation_view);
         ButterKnife.inject(this);
 
-        setupToolbar();
+        setupToolbar(toolbar);
         setupNavigationDrawer();
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) {
-            throw new IllegalStateException("Action bar must not be null.");
-        }
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-    }
-
-
     private void setupNavigationDrawer() {
+        Picasso.with(this).load(AVATAR_URL).fit().centerCrop().into(circleImageView);
+        nameTextView.setText(ParseUser.getCurrentUser().getUsername());
+        schoolNameTextView.setText(ParseUser.getCurrentUser().getString("schoolName"));
         navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -200,5 +201,16 @@ public final class MainActivity extends BaseActivity implements MainView,
     public void navigateToCreateDiscussion() {
         startActivityForResult(new Intent(this, DiscussionFormActivity.class),
                 REQUEST_CODE_DISCUSSION_FORM);
+    }
+
+    @Override
+    public void setupToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            throw new IllegalStateException("Action bar must not be null.");
+        }
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 }
