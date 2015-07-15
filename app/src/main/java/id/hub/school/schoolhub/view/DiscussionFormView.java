@@ -7,6 +7,10 @@ public interface DiscussionFormView extends LoadDataView {
 
     void showQuestionError(String message);
 
+    void hideJudulError();
+
+    void hideQuestionError();
+
     String getJudul();
 
     String getQuestion();
@@ -14,4 +18,6 @@ public interface DiscussionFormView extends LoadDataView {
     String getKategori();
 
     File getImage();
+
+    void finish();
 }

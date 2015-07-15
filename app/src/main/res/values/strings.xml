@@ -10,7 +10,7 @@
     <string name="hint_school_name_edittext">School Name</string>
     <string name="hint_title_edittext">Title</string>
     <string name="hint_question_edittext">Question</string>
-
+    <string name="hint_category_spinner">Choose Subjects</string>
 
     <string name="message_loading">Loading...</string>
 
@@ -22,6 +22,7 @@
     <string name="label_hide_button">hide</string>
     <string name="label_action_new_room">New Room</string>
     <string name="label_actionbar_title_create_discussion_room">Create Discussion Room</string>
+    <string name="label_submit_button">SUBMIT</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>
@@ -32,5 +33,19 @@
         <item>Angola</item>
         <item>Anguilla</item>
         <item>Antarctica</item>
+    </string-array>
+
+    <string-array name="category_array">
+        <item>Matematika</item>
+        <item>Fisika</item>
+        <item>Sejarah Indonesia</item>
+        <item>Biologi</item>
+        <item>Bahasa Indonesia</item>
+        <item>Kimia</item>
+        <item>Bahasa Inggris</item>
+        <item>Bahasa dan Sastra Inggris</item>
+        <item>Pendidikan Agama</item>
+        <item>Ekonomi</item>
+        <item>Geografi</item>
     </string-array>
 </resources>

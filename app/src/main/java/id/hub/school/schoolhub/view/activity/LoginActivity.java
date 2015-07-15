@@ -4,15 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.analytics.Tracker;
+
+import javax.inject.Inject;
+
+import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.view.fragment.LoginFragment;
 
 import static id.hub.school.schoolhub.view.fragment.LoginFragment.*;
 
 public final class LoginActivity extends BaseActivity implements Controller {
 
+    @Inject Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SchoolHubApp.get(this).component().inject(this);
+        tracker.setScreenName("Log In");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()

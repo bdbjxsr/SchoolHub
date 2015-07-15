@@ -2,9 +2,12 @@ package id.hub.school.schoolhub.view.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,13 +37,18 @@ import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 import id.hub.school.schoolhub.presenter.DiscussionPresenter;
 import id.hub.school.schoolhub.view.DiscussionView;
+import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter;
+import id.hub.school.schoolhub.view.widget.LoadingView;
 import timber.log.Timber;
 
 public class DiscussionFragment extends BaseFragment implements DiscussionView {
 
     @InjectView(R.id.fab) FloatingActionButton fab;
+    @InjectView(R.id.loading_view) LoadingView loadingView;
+    @InjectView(R.id.recyclerview) RecyclerView recyclerView;
 
     @Inject DiscussionPresenter presenter;
+    @Inject Tracker tracker;
 
     private Controller controller;
 
@@ -61,23 +75,41 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView {
         View view = inflater.inflate(R.layout.fragment_discussion, container, false);
         ButterKnife.inject(this, view);
 
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.loadDiscussionRoom();
     }
 
     @OnClick(R.id.fab)
     void onFABClick() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("FAB")
+                .setAction("click")
+                .setLabel("Create New Discussion Room")
+                .build());
         presenter.onFABClick();
     }
 
 
     @Override
-    public void showLoading() {
-
-    }
+    public void showLoading() { loadingView.setVisibility(View.VISIBLE); }
 
     @Override
-    public void hideLoading() {
+    public void hideLoading() { loadingView.setVisibility(View.GONE); }
 
+    @Override
+    public void showDiscussionRoom(List<RuangDiskusiObject> list) {
+        DiscussionRoomAdapter adapter = new DiscussionRoomAdapter(list);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -86,28 +118,20 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView {
     }
 
     @Override
-    public void showProgress() {
-
-    }
+    public void showProgress() {}
 
     @Override
-    public void hideProgress() {
-
-    }
+    public void hideProgress() {}
 
     @Override
-    public void showRetry() {
-
-    }
+    public void showRetry() {}
 
     @Override
-    public void hideRetry() {
-
-    }
+    public void hideRetry() {}
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

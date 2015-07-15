@@ -6,13 +6,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import id.hub.school.schoolhub.R;
-import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment;
+import com.google.android.gms.analytics.Tracker;
 
-public class DiscussionFormActivity extends BaseActivity {
+import javax.inject.Inject;
+
+import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.SchoolHubApp;
+import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment;
+import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment.Controller;
+
+public class DiscussionFormActivity extends BaseActivity implements Controller {
+
+    @Inject Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SchoolHubApp.get(this).component().inject(this);
+        tracker.setScreenName("Create Discussion Room");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -43,5 +54,11 @@ public class DiscussionFormActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void setResultAndFinish() {
+        setResult(RESULT_OK);
+        finish();
     }
 }

@@ -14,16 +14,20 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.Tracker;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.libs.CircleTransform;
 import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
@@ -41,6 +45,8 @@ public final class MainActivity extends BaseActivity implements MainView,
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
     public static final String AVATAR_URL = "http://lorempixel.com/200/200/people/1/";
 
+    @Inject Tracker tracker;
+
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.navigation) NavigationView navigationView;
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -53,6 +59,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SchoolHubApp.get(this).component().inject(this);
         setContentView(R.layout.activity_main_with_navigation_view);
         ButterKnife.inject(this);
 
@@ -62,7 +69,7 @@ public final class MainActivity extends BaseActivity implements MainView,
 
     private void setupNavigationDrawer() {
         Picasso.with(this).load(AVATAR_URL).fit().centerCrop().into(circleImageView);
-        nameTextView.setText(ParseUser.getCurrentUser().getUsername());
+        nameTextView.setText(ParseUser.getCurrentUser().getString("fullName"));
         schoolNameTextView.setText(ParseUser.getCurrentUser().getString("schoolName"));
         navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
             @Override
@@ -129,23 +136,27 @@ public final class MainActivity extends BaseActivity implements MainView,
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_DISCUSSION_FORM) {
             // TODO fajar: call interactor to reload list discussion room from fragment presenter
+            openFragment(new DiscussionFragment());
         }
     }
 
     @Override
     public void replaceWithHomeFragment() {
+        tracker.setScreenName("Home");
         toolbar.setTitle(getString(R.string.app_name));
         openFragment(new HomeFragment());
     }
 
     @Override
     public void replaceWithScheduleFragment() {
+        tracker.setScreenName("Schedule");
         toolbar.setTitle("Schedule");
         openFragment(new ScheduleFragment());
     }
 
     @Override
     public void replaceWithDiscussionFragment() {
+        tracker.setScreenName("Discussion Room");
         toolbar.setTitle("Discussion Room");
         openFragment(new DiscussionFragment());
     }

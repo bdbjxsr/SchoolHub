@@ -7,6 +7,8 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_secondary</item>
         <item name="colorAccent">@android:color/holo_orange_light</item>
+        <item name="colorControlHighlight">@color/color_secondary</item>
+        <item name="colorControlActivated">@color/color_secondary</item>
     </style>
 
     <style name="Base.SchoolHub.EditText" parent="Widget.AppCompat.EditText">
