@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -28,18 +29,16 @@ import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
-import id.hub.school.schoolhub.libs.CircleTransform;
 import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.HomeFragment;
 import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
-import id.hub.school.schoolhub.view.fragment.SettingsFragment;
 
 import static android.support.design.widget.NavigationView.*;
 
 public final class MainActivity extends BaseActivity implements MainView,
-        SettingsFragment.Controller, DiscussionFragment.Controller {
+        DiscussionFragment.Controller {
 
     public static final String TAG_LOADING = "loading";
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
@@ -68,7 +67,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     private void setupNavigationDrawer() {
-        Picasso.with(this).load(AVATAR_URL).fit().centerCrop().into(circleImageView);
+        Picasso.with(this).load(R.drawable.male).noFade().into(circleImageView);
         nameTextView.setText(ParseUser.getCurrentUser().getString("fullName"));
         schoolNameTextView.setText(ParseUser.getCurrentUser().getString("schoolName"));
         navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
@@ -143,6 +142,8 @@ public final class MainActivity extends BaseActivity implements MainView,
     @Override
     public void replaceWithHomeFragment() {
         tracker.setScreenName("Home");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         toolbar.setTitle(getString(R.string.app_name));
         openFragment(new HomeFragment());
     }
@@ -150,6 +151,8 @@ public final class MainActivity extends BaseActivity implements MainView,
     @Override
     public void replaceWithScheduleFragment() {
         tracker.setScreenName("Schedule");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         toolbar.setTitle("Schedule");
         openFragment(new ScheduleFragment());
     }
@@ -157,11 +160,14 @@ public final class MainActivity extends BaseActivity implements MainView,
     @Override
     public void replaceWithDiscussionFragment() {
         tracker.setScreenName("Discussion Room");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         toolbar.setTitle("Discussion Room");
         openFragment(new DiscussionFragment());
     }
 
-    private void openFragment(Fragment fragment) {
+    @Override
+    public void openFragment(Fragment fragment) {
         drawerLayout.closeDrawers();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment).commit();
@@ -212,6 +218,14 @@ public final class MainActivity extends BaseActivity implements MainView,
     public void navigateToCreateDiscussion() {
         startActivityForResult(new Intent(this, DiscussionFormActivity.class),
                 REQUEST_CODE_DISCUSSION_FORM);
+    }
+
+    @Override
+    public void navigateToDiscussionRoom(String id, String question) {
+        Intent intent = new Intent(this, OpenDiscussionActivity.class);
+        intent.putExtra(OpenDiscussionActivity.EXTRA_OBJECT_ID, id);
+        intent.putExtra(OpenDiscussionActivity.EXTRA_QUESTION, question);
+        startActivity(intent);
     }
 
     @Override

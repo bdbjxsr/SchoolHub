@@ -24,6 +24,10 @@
     <string name="label_actionbar_title_create_discussion_room">Create Discussion Room</string>
     <string name="label_submit_button">SUBMIT</string>
 
+    <string name="txt_yo_yo">Yo Yo</string>
+    <string name="label_empty_comment">No Answer Yet.</string>
+    <string name="label_your_answer_edittext">Your answer</string>
+
     <string-array name="countries_array">
         <item>Afghanistan</item>
         <item>Albania</item>

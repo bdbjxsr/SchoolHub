@@ -72,7 +72,7 @@ dependencies {
     debugCompile 'com.squareup.retrofit:retrofit-mock:1.4.1'
 
     compile 'de.hdodenhof:circleimageview:1.2.1'
-    compile 'com.android.support:recyclerview-v7:22.0.+'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.0.+'
 
     compile 'com.getbase:floatingactionbutton:1.9.1'

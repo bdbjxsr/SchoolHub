@@ -8,31 +8,31 @@ import com.parse.ParseUser;
 @ParseClassName("RuangDiskusi")
 public class RuangDiskusiObject extends ParseObject {
 
-    public static final String USER = "user";
-    public static final String JUDUL = "judul";
-    public static final String KATEGORI = "kategori";
-    public static final String QUESTION = "question";
-    public static final String IMAGE = "image";
+    public static final String KEY_USER = "user";
+    public static final String KEY_JUDUL = "judul";
+    public static final String KEY_KATEGORI = "kategori";
+    public static final String KEY_QUESTION = "question";
+    public static final String KEY_IMAGE = "image";
 
     public RuangDiskusiObject() {}
 
-    public void setUser(ParseUser user) { put(USER, user); }
+    public void setUser(ParseUser user) { put(KEY_USER, user); }
 
-    public ParseUser getUser() { return getParseUser(USER); }
+    public ParseUser getUser() { return getParseUser(KEY_USER); }
 
-    public void setJudul(String judul) { put(JUDUL, judul); }
+    public void setJudul(String judul) { put(KEY_JUDUL, judul); }
 
-    public String getJudul() { return getString(JUDUL); }
+    public String getJudul() { return getString(KEY_JUDUL); }
 
-    public void setKategori(String kategori) { put(KATEGORI, kategori); }
+    public void setKategori(String kategori) { put(KEY_KATEGORI, kategori); }
 
-    public String getKategori() { return getString(KATEGORI); }
+    public String getKategori() { return getString(KEY_KATEGORI); }
 
-    public void setQuestion (String question) { put(QUESTION, question); }
+    public void setQuestion (String question) { put(KEY_QUESTION, question); }
 
-    public String getQuestion() { return getString(QUESTION); }
+    public String getQuestion() { return getString(KEY_QUESTION); }
 
-    public void setImage(ParseFile file) { put(IMAGE, file); }
+    public void setImage(ParseFile file) { put(KEY_IMAGE, file); }
 
-    public ParseFile getImage() { return getParseFile(IMAGE); }
+    public ParseFile getImage() { return getParseFile(KEY_IMAGE); }
 }

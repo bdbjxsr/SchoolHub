@@ -9,6 +9,7 @@ import com.parse.ParseQuery;
 
 import javax.inject.Inject;
 
+import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 
 public class SchoolHubApp extends Application {
@@ -26,7 +27,9 @@ public class SchoolHubApp extends Application {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "ey3vNH1eOoQC4HI6AEIhh7sguh5oRiCsyF05juPv",
                 "62m3R8nJyQNsMMv1VxtIXQJigHCgggLZ5vd86olM");
+
         ParseObject.registerSubclass(RuangDiskusiObject.class);
+        ParseObject.registerSubclass(OpenDiscussionObject.class);
 
         applicationLifecycle.onApplicationCreated();
     }

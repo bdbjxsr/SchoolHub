@@ -8,10 +8,11 @@ import id.hub.school.schoolhub.view.activity.MainActivity;
 import id.hub.school.schoolhub.view.activity.SignupActivity;
 import id.hub.school.schoolhub.view.adapter.AutoCompleteParseAdapter;
 import id.hub.school.schoolhub.view.fragment.AuthenticateFragment;
+import id.hub.school.schoolhub.view.fragment.CreateCommentFragment;
 import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.LoginFragment;
-import id.hub.school.schoolhub.view.fragment.SettingsFragment;
+import id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.SignupFragment;
 
 public interface SchoolHubGraph {
@@ -24,8 +25,6 @@ public interface SchoolHubGraph {
     void inject(LoginFragment fragment);
 
     void inject(SignupFragment fragment);
-
-    void inject(SettingsFragment fragment);
 
     void inject(AutoCompleteParseAdapter autoCompleteParseAdapter);
 
@@ -42,4 +41,8 @@ public interface SchoolHubGraph {
     void inject(SignupActivity activity);
 
     void inject(AuthenticateActivity activity);
+
+    void inject(OpenDiscussionFragment fragment);
+
+    void inject(CreateCommentFragment fragment);
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class DiscussionFormActivity extends BaseActivity implements Controller {
         super.onCreate(savedInstanceState);
         SchoolHubApp.get(this).component().inject(this);
         tracker.setScreenName("Create Discussion Room");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

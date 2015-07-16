@@ -21,15 +21,17 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
-        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".view.activity.EntranceActivity"
@@ -45,7 +47,7 @@
 
         <activity android:name=".view.activity.MainActivity" />
 
-        <activity android:name=".view.activity.MainNavigationViewActivity" />
+        <activity android:name=".view.activity.OpenDiscussionActivity" />
 
         <activity
             android:name=".view.activity.LoginActivity"
@@ -55,8 +57,13 @@
             android:name=".view.activity.SignupActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <activity android:name=".view.activity.DiscussionFormActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".view.activity.DiscussionFormActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".view.activity.CreateCommentActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
     </application>
 

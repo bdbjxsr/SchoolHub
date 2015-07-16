@@ -38,10 +38,11 @@ import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 import id.hub.school.schoolhub.presenter.DiscussionPresenter;
 import id.hub.school.schoolhub.view.DiscussionView;
 import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter;
+import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter.ClickListener;
 import id.hub.school.schoolhub.view.widget.LoadingView;
 import timber.log.Timber;
 
-public class DiscussionFragment extends BaseFragment implements DiscussionView {
+public class DiscussionFragment extends BaseFragment implements DiscussionView, ClickListener {
 
     @InjectView(R.id.fab) FloatingActionButton fab;
     @InjectView(R.id.loading_view) LoadingView loadingView;
@@ -109,6 +110,9 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView {
     @Override
     public void showDiscussionRoom(List<RuangDiskusiObject> list) {
         DiscussionRoomAdapter adapter = new DiscussionRoomAdapter(list);
+        adapter.setClickListener(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 
@@ -139,7 +143,17 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView {
         return getActivity();
     }
 
+    @Override
+    public void onItemClickListener(View view, int position) {
+        DiscussionRoomAdapter adapter = (DiscussionRoomAdapter) recyclerView.getAdapter();
+        String objectId = adapter.getItem(position).getObjectId();
+        String question = adapter.getItem(position).getQuestion();
+        controller.navigateToDiscussionRoom(objectId, question);
+    }
+
     public interface Controller {
         void navigateToCreateDiscussion();
+
+        void navigateToDiscussionRoom(String id, String question);
     }
 }

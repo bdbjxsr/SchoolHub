@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ public class SignupActivity extends BaseActivity implements Controller {
         super.onCreate(savedInstanceState);
         SchoolHubApp.get(this).component().inject(this);
         tracker.setScreenName("Sign Up");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

@@ -25,6 +25,7 @@ public class DiscussionRoomInteractorImp implements DiscussionRoomInteractor {
     public void loadDiscussionRoom(final LoadDiscussionRoomListener listener) {
         ParseQuery<RuangDiskusiObject> query = new
                 ParseQuery<RuangDiskusiObject>(RuangDiskusiObject.class);
+        query.include("user");
         query.setLimit(NEW_LIMIT);
         query.orderByDescending(CREATED_AT);
         query.findInBackground(new FindCallback<RuangDiskusiObject>() {
