@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,6 +48,7 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @InjectView(R.id.empty) TextView empty;
 
     @Inject OpenDiscussionPresenter presenter;
+    @Inject Tracker tracker;
 
     private Controller controller;
 
@@ -92,7 +96,14 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     }
 
     @OnClick(R.id.fab)
-    void onFABClick () { presenter.onFABClick(); }
+    void onFABClick () {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("FAB")
+                .setAction("click")
+                .setLabel("Create New Comment")
+                .build());
+        presenter.onFABClick();
+    }
 
     @Override
     public void showComment(List<OpenDiscussionObject> list) {

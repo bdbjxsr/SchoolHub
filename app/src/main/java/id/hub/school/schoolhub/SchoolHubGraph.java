@@ -1,10 +1,12 @@
 package id.hub.school.schoolhub;
 
 import id.hub.school.schoolhub.view.activity.AuthenticateActivity;
+import id.hub.school.schoolhub.view.activity.CreateCommentActivity;
 import id.hub.school.schoolhub.view.activity.DiscussionFormActivity;
 import id.hub.school.schoolhub.view.activity.EntranceActivity;
 import id.hub.school.schoolhub.view.activity.LoginActivity;
 import id.hub.school.schoolhub.view.activity.MainActivity;
+import id.hub.school.schoolhub.view.activity.OpenDiscussionActivity;
 import id.hub.school.schoolhub.view.activity.SignupActivity;
 import id.hub.school.schoolhub.view.adapter.AutoCompleteParseAdapter;
 import id.hub.school.schoolhub.view.fragment.AuthenticateFragment;
@@ -45,4 +47,8 @@ public interface SchoolHubGraph {
     void inject(OpenDiscussionFragment fragment);
 
     void inject(CreateCommentFragment fragment);
+
+    void inject(OpenDiscussionActivity activity);
+
+    void inject(CreateCommentActivity activity);
 }

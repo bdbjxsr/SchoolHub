@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -32,6 +35,7 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
     @InjectView(R.id.action_bar) Toolbar toolbar;
 
     @Inject CreateCommentPresenter presenter;
+    @Inject Tracker tracker;
 
     private Controller controller;
 
@@ -81,6 +85,11 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
 
     @OnClick(R.id.button_submit)
     void onSubmitClick() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Button")
+                .setAction("click")
+                .setLabel("Submit Answer")
+                .build());
         showProgress();
         presenter.onSubmitClick();
     }

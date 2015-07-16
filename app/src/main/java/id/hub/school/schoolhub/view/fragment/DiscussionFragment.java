@@ -148,6 +148,14 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         DiscussionRoomAdapter adapter = (DiscussionRoomAdapter) recyclerView.getAdapter();
         String objectId = adapter.getItem(position).getObjectId();
         String question = adapter.getItem(position).getQuestion();
+        String type = adapter.getItem(position).getKategori();
+
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Row Item")
+                .setAction("click")
+                .setLabel(type + "/" + objectId)
+                .build());
+
         controller.navigateToDiscussionRoom(objectId, question);
     }
 

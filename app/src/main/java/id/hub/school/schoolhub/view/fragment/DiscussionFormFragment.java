@@ -97,7 +97,7 @@ public class DiscussionFormFragment extends BaseFragment implements DiscussionFo
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Button")
                 .setAction("click")
-                .setLabel("Submit")
+                .setLabel("Submit Question")
                 .build());
         presenter.onSubmitClick();
     }

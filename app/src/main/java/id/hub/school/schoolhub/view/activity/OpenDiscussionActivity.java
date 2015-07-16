@@ -7,7 +7,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import javax.inject.Inject;
+
 import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment;
 
 import static id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment.*;
@@ -17,6 +23,8 @@ public class OpenDiscussionActivity extends BaseActivity implements Controller {
     public static final String EXTRA_OBJECT_ID = "extra_object_id";
     public static final String EXTRA_QUESTION = "extra_question";
     public static final int CREATE_COMMENT_REQUEST_CODE = 10057;
+
+    @Inject Tracker tracker;
 
     @Override
     public void setupToolbar(Toolbar toolbar) {
@@ -32,6 +40,11 @@ public class OpenDiscussionActivity extends BaseActivity implements Controller {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SchoolHubApp.get(this).component().inject(this);
+
+        tracker.setScreenName("Open Discussion");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         Bundle bundle = getIntent().getExtras();
 
