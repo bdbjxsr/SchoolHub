@@ -15,6 +15,7 @@ import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.LoginFragment;
 import id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment;
+import id.hub.school.schoolhub.view.fragment.SchedulePageFragment;
 import id.hub.school.schoolhub.view.fragment.SignupFragment;
 
 public interface SchoolHubGraph {
@@ -51,4 +52,6 @@ public interface SchoolHubGraph {
     void inject(OpenDiscussionActivity activity);
 
     void inject(CreateCommentActivity activity);
+
+    void inject(SchedulePageFragment fragment);
 }

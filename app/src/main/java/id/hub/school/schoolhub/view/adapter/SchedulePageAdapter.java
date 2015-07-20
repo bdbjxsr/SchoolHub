@@ -20,17 +20,11 @@ public class SchedulePageAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
-        return SchedulePageFragment.newInstance(position+1);
-    }
+    public Fragment getItem(int position) { return SchedulePageFragment.newInstance(position+1); }
 
     @Override
-    public int getCount() {
-        return PAGE_COUNT;
-    }
+    public int getCount() { return PAGE_COUNT; }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return tabTitle[position];
-    }
+    public CharSequence getPageTitle(int position) { return tabTitle[position]; }
 }

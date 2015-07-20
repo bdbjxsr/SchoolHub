@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
+import id.hub.school.schoolhub.model.data.ScheduleObject;
 
 public class SchoolHubApp extends Application {
     private SchoolHubGraph component;
@@ -30,6 +31,7 @@ public class SchoolHubApp extends Application {
 
         ParseObject.registerSubclass(RuangDiskusiObject.class);
         ParseObject.registerSubclass(OpenDiscussionObject.class);
+        ParseObject.registerSubclass(ScheduleObject.class);
 
         applicationLifecycle.onApplicationCreated();
     }

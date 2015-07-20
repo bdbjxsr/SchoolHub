@@ -88,6 +88,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.loadDiscussionRoom();
+
     }
 
     @OnClick(R.id.fab)

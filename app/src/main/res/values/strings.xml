@@ -27,6 +27,7 @@
     <string name="txt_yo_yo">Yo Yo</string>
     <string name="label_empty_comment">No Answer Yet.</string>
     <string name="label_your_answer_edittext">Your answer</string>
+    <string name="label_empty_schedule">No schedule yet</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

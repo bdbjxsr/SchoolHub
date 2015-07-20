@@ -18,7 +18,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
@@ -35,14 +34,13 @@ import id.hub.school.schoolhub.view.fragment.HomeFragment;
 import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
 
-import static android.support.design.widget.NavigationView.*;
+import static android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 
 public final class MainActivity extends BaseActivity implements MainView,
-        DiscussionFragment.Controller {
+        DiscussionFragment.Controller, ScheduleFragment.Controller {
 
     public static final String TAG_LOADING = "loading";
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
-    public static final String AVATAR_URL = "http://lorempixel.com/200/200/people/1/";
 
     @Inject Tracker tracker;
 
@@ -185,24 +183,16 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     @Override
-    public void showProgress() {
-
-    }
+    public void showProgress() {}
 
     @Override
-    public void hideProgress() {
-
-    }
+    public void hideProgress() {}
 
     @Override
-    public void showRetry() {
-
-    }
+    public void showRetry() {}
 
     @Override
-    public void hideRetry() {
-
-    }
+    public void hideRetry() {}
 
     @Override
     public void showError(String message) {
@@ -237,5 +227,10 @@ public final class MainActivity extends BaseActivity implements MainView,
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+    }
+
+    @Override
+    public void navigateToCreateSchedule() {
+
     }
 }
