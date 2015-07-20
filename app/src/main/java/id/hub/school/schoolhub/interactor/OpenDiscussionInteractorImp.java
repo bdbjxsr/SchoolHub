@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 import id.hub.school.schoolhub.presenter.OpenDiscussionListener;
+import id.hub.school.schoolhub.presenter.OpenDiscussionPresenter;
 
 @Singleton
 public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
@@ -47,7 +48,31 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
     }
 
     @Override
-    public void loadMoreCommentDiscussion(String objectId, int current_page,
+    public void reloadCommentDiscussion(String objectId, final OpenDiscussionListener listener) {
+        ParseQuery<RuangDiskusiObject> ruangDiskusiObjectParseQuery =
+                new ParseQuery<>(RuangDiskusiObject.class);
+        ruangDiskusiObjectParseQuery.whereEqualTo("objectId", objectId);
+
+        ParseQuery<OpenDiscussionObject> query =
+                new ParseQuery<>(OpenDiscussionObject.class);
+        query.include("user");
+        query.include("ruangDiskusi");
+        query.setLimit(LIMIT);
+        query.whereMatchesQuery("ruangDiskusi", ruangDiskusiObjectParseQuery);
+        query.findInBackground(new FindCallback<OpenDiscussionObject>() {
+            @Override
+            public void done(List<OpenDiscussionObject> list, ParseException e) {
+                if (e == null) {
+                    listener.onReloadSuccess(list);
+                } else {
+                    listener.onLoadFailed(e.getMessage());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadMoreCommentDiscussion(String objectId, int loadMore,
                                           final OpenDiscussionListener listener) {
         ParseQuery<RuangDiskusiObject> ruangDiskusiObjectParseQuery =
                 new ParseQuery<>(RuangDiskusiObject.class);
@@ -58,7 +83,7 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
         query.include("user");
         query.include("ruangDiskusi");
         query.setLimit(LIMIT);
-        query.setSkip(current_page * LIMIT);
+        query.setSkip(loadMore);
         query.whereMatchesQuery("ruangDiskusi", ruangDiskusiObjectParseQuery);
         query.findInBackground(new FindCallback<OpenDiscussionObject>() {
             @Override
@@ -71,4 +96,6 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
             }
         });
     }
+
+
 }

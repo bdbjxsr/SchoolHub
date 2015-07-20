@@ -54,6 +54,10 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     private Controller controller;
     private CommentAdapter adapter;
 
+    private LinearLayoutManager layoutManager;
+    private boolean loading = false;
+
+
     public static OpenDiscussionFragment newInstance(String id, String question) {
         Bundle args = new Bundle();
         args.putString(ARGS_OBJECT_ID, id);
@@ -73,6 +77,9 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
         }
         controller = (Controller) activity;
         presenter.setView(this);
+        adapter = new CommentAdapter();
+        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     }
 
     @Override
@@ -103,12 +110,22 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
             }
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore(int current_page) {
-                presenter.loadMoreComment(getArguments().getString(ARGS_OBJECT_ID), current_page);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = recyclerView.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + 10)) {
+                    loading = true;
+                    // End has been reached
+                    presenter.loadMoreComment(getArguments().getString(ARGS_OBJECT_ID),
+                            totalItemCount - 1);
+                }
             }
         });
     }
@@ -130,16 +147,22 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @Override
     public void showComment(List<OpenDiscussionObject> list) {
         list.add(null);
-        adapter = new CommentAdapter(list);
+        adapter.setList(list);
         recyclerView.setVisibility(VISIBLE);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void showEmptyTextView() { empty.setVisibility(VISIBLE); }
+    public void showEmptyTextView() {
+        swipeRefreshLayout.setVisibility(GONE);
+        empty.setVisibility(VISIBLE);
+    }
 
     @Override
-    public void hideEmptyTextView() { empty.setVisibility(GONE); }
+    public void hideEmptyTextView() {
+        swipeRefreshLayout.setVisibility(VISIBLE);
+        empty.setVisibility(GONE);
+    }
 
     @Override
     public void navigateToCreateComment(String objectId) {
@@ -154,8 +177,16 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
 
     @Override
     public void addMoreList(List<OpenDiscussionObject> list) {
+        loading = false;
         list.add(null);
         adapter.addMoreList(list);
+    }
+
+    @Override
+    public void reloadList(List<OpenDiscussionObject> list) {
+        list.add(null);
+        adapter.setList(list);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

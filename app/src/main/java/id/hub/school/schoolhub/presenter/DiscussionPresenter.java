@@ -43,7 +43,6 @@ public class DiscussionPresenter implements BasePresenter, LoadDiscussionRoomLis
     @Override
     public void onLoadSuccess(List<RuangDiskusiObject> list) {
         view.hideLoading();
-        view.hideRefreshLoading();
         view.showDiscussionRoom(list);
     }
 
@@ -54,13 +53,20 @@ public class DiscussionPresenter implements BasePresenter, LoadDiscussionRoomLis
     }
 
     @Override
+    public void onReloadSuccess(List<RuangDiskusiObject> list) {
+        view.hideRefreshLoading();
+        view.reloadDiscussionRoom(list);
+    }
+
+    @Override
     public void onLoadMoreSuccess(List<RuangDiskusiObject> list) {
         view.addMoreList(list);
     }
 
-    public void reloadDiscussionRoom() { interactorImp.loadDiscussionRoom(this); }
+    public void reloadDiscussionRoom() {
+        interactorImp.reloadDiscussionRoom(this); }
 
-    public void loadMoreDiscussionRoom(int current_page) {
-        interactorImp.loadMoreDiscussionRoom(current_page, this);
+    public void loadMoreDiscussionRoom(int loadMore) {
+        interactorImp.loadMoreDiscussionRoom(loadMore, this);
     }
 }

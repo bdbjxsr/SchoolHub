@@ -27,7 +27,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<OpenDiscussionObject> list;
 
-    public CommentAdapter(List<OpenDiscussionObject> list) { this.list = list; }
+    public CommentAdapter(){}
+
+    public void setList(List<OpenDiscussionObject> list) { this.list = list; }
 
     @Override
     public int getItemViewType(int position) {

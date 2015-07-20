@@ -24,7 +24,9 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<RuangDiskusiObject> list;
     private ClickListener clickListener;
 
-    public DiscussionRoomAdapter(List<RuangDiskusiObject> list) { this.list = list; }
+    public DiscussionRoomAdapter() {}
+
+    public void setList(List<RuangDiskusiObject> list) { this.list = list; }
 
     public RuangDiskusiObject getItem(int position) {
         return list.get(position);

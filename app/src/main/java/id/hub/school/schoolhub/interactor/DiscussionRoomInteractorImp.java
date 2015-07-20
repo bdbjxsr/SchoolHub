@@ -41,12 +41,31 @@ public class DiscussionRoomInteractorImp implements DiscussionRoomInteractor {
     }
 
     @Override
-    public void loadMoreDiscussionRoom(int current_page, final LoadDiscussionRoomListener listener) {
+    public void reloadDiscussionRoom(final LoadDiscussionRoomListener listener) {
         ParseQuery<RuangDiskusiObject> query = new
                 ParseQuery<RuangDiskusiObject>(RuangDiskusiObject.class);
         query.include("user");
         query.setLimit(LIMIT);
-        query.setSkip(current_page * LIMIT);
+        query.orderByDescending(CREATED_AT);
+        query.findInBackground(new FindCallback<RuangDiskusiObject>() {
+            @Override
+            public void done(List<RuangDiskusiObject> list, ParseException e) {
+                if (e == null) {
+                    listener.onReloadSuccess(list);
+                } else {
+                    listener.onLoadFailed(e.getMessage());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadMoreDiscussionRoom(int loadMore, final LoadDiscussionRoomListener listener) {
+        ParseQuery<RuangDiskusiObject> query = new
+                ParseQuery<RuangDiskusiObject>(RuangDiskusiObject.class);
+        query.include("user");
+        query.setLimit(LIMIT);
+        query.setSkip(loadMore);
         query.orderByDescending(CREATED_AT);
         query.findInBackground(new FindCallback<RuangDiskusiObject>() {
             @Override

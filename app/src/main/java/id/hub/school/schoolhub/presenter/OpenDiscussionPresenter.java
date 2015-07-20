@@ -62,15 +62,19 @@ public class OpenDiscussionPresenter implements BasePresenter, OpenDiscussionLis
     }
 
     @Override
-    public void onLoadMoreSuccess(List<OpenDiscussionObject> list) {
-        view.addMoreList(list);
+    public void onLoadMoreSuccess(List<OpenDiscussionObject> list) { view.addMoreList(list); }
+
+    @Override
+    public void onReloadSuccess(List<OpenDiscussionObject> list) {
+        view.hideRefresh();
+        view.reloadList(list);
     }
 
     public void refreshComment(String objectId) {
-        interactorImp.loadCommentDiscussion(objectId, this);
+        interactorImp.reloadCommentDiscussion(objectId, this);
     }
 
-    public void loadMoreComment(String objectId, int current_page) {
-        interactorImp.loadMoreCommentDiscussion(objectId, current_page, this);
+    public void loadMoreComment(String objectId, int loadMore) {
+        interactorImp.loadMoreCommentDiscussion(objectId, loadMore, this);
     }
 }

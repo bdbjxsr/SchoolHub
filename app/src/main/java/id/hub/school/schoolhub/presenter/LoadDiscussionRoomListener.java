@@ -9,5 +9,7 @@ public interface LoadDiscussionRoomListener {
 
     void onLoadFailed(String message);
 
+    void onReloadSuccess(List<RuangDiskusiObject> list);
+
     void onLoadMoreSuccess(List<RuangDiskusiObject> list);
 }

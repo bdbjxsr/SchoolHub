@@ -46,6 +46,9 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     private Controller controller;
     private DiscussionRoomAdapter adapter;
 
+    private LinearLayoutManager layoutManager;
+    private boolean loading = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,19 +64,21 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         }
         controller = (Controller) activity;
         presenter.setDiscussionView(this);
+        adapter = new DiscussionRoomAdapter();
+        layoutManager = new LinearLayoutManager(activity);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discussion, container, false);
         ButterKnife.inject(this, view);
 
         recyclerView.setHasFixedSize(false);
-        LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(llm);
+        recyclerView.setLayoutManager(layoutManager);
 
         return view;
     }
@@ -90,13 +95,21 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
             }
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore(int current_page) {
-                presenter.loadMoreDiscussionRoom(current_page);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = recyclerView.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + 10)) {
+                    loading = true;
+                    // End has been reached
+                    presenter.loadMoreDiscussionRoom(totalItemCount - 1);
+                }
             }
         });
     }
@@ -121,7 +134,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @Override
     public void showDiscussionRoom(List<RuangDiskusiObject> list) {
         list.add(null);
-        adapter = new DiscussionRoomAdapter(list);
+        adapter.setList(list);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
@@ -129,6 +142,13 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @Override
     public void navigateToCreateDiscussion() {
         controller.navigateToCreateDiscussion();
+    }
+
+    @Override
+    public void reloadDiscussionRoom(List<RuangDiskusiObject> list) {
+        list.add(null);
+        adapter.setList(list);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -158,6 +178,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
 
     @Override
     public void addMoreList(List<RuangDiskusiObject> list) {
+        loading = false;
         list.add(null);
         adapter.addMoreList(list);
     }

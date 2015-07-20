@@ -18,4 +18,6 @@ public interface OpenDiscussionView extends LoadDataView {
     void hideRefresh();
 
     void addMoreList(List<OpenDiscussionObject> list);
+
+    void reloadList(List<OpenDiscussionObject> list);
 }

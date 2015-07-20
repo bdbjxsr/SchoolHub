@@ -13,6 +13,8 @@ public interface DiscussionView extends LoadDataView {
 
     void navigateToCreateDiscussion();
 
+    void reloadDiscussionRoom(List<RuangDiskusiObject> list);
+
     void hideRefreshLoading();
 
     void addMoreList(List<RuangDiskusiObject> list);

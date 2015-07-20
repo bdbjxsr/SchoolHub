@@ -10,4 +10,6 @@ public interface OpenDiscussionListener {
     void onLoadFailed(String message);
 
     void onLoadMoreSuccess(List<OpenDiscussionObject> list);
+
+    void onReloadSuccess(List<OpenDiscussionObject> list);
 }
