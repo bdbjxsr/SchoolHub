@@ -8,4 +8,6 @@ public interface LoadDiscussionRoomListener {
     void onLoadSuccess(List<RuangDiskusiObject> list);
 
     void onLoadFailed(String message);
+
+    void onLoadMoreSuccess(List<RuangDiskusiObject> list);
 }

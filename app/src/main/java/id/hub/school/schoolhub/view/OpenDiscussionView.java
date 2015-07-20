@@ -16,4 +16,6 @@ public interface OpenDiscussionView extends LoadDataView {
     String getDiscussionObectId();
 
     void hideRefresh();
+
+    void addMoreList(List<OpenDiscussionObject> list);
 }

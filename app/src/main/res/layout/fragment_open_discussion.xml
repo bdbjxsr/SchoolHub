@@ -84,7 +84,6 @@
         android:layout_marginRight="@dimen/fab_margin_right"
         android:src="@drawable/ic_question_answer_white_24dp"
         app:borderWidth="0dp"
-        app:fabSize="normal"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:fabSize="normal" />
 
 </android.support.design.widget.CoordinatorLayout>

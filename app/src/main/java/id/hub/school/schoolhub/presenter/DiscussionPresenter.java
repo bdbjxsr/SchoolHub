@@ -8,7 +8,6 @@ import javax.inject.Singleton;
 import id.hub.school.schoolhub.interactor.DiscussionRoomInteractorImp;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 import id.hub.school.schoolhub.view.DiscussionView;
-import timber.log.Timber;
 
 @Singleton
 public class DiscussionPresenter implements BasePresenter, LoadDiscussionRoomListener {
@@ -54,7 +53,14 @@ public class DiscussionPresenter implements BasePresenter, LoadDiscussionRoomLis
         view.hideLoading();
     }
 
-    public void reloadDiscussionRoom() {
-        interactorImp.loadDiscussionRoom(this);
+    @Override
+    public void onLoadMoreSuccess(List<RuangDiskusiObject> list) {
+        view.addMoreList(list);
+    }
+
+    public void reloadDiscussionRoom() { interactorImp.loadDiscussionRoom(this); }
+
+    public void loadMoreDiscussionRoom(int current_page) {
+        interactorImp.loadMoreDiscussionRoom(current_page, this);
     }
 }

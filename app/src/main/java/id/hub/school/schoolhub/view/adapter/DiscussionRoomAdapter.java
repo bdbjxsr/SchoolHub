@@ -5,21 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 
-public class DiscussionRoomAdapter extends RecyclerView.Adapter<DiscussionRoomAdapter.DiscussionRoomViewHolder> {
+public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public static final int VIEW_TYPE_LOADING = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
 
     private List<RuangDiskusiObject> list;
     private ClickListener clickListener;
@@ -35,25 +35,50 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<DiscussionRoomAd
     }
 
     @Override
-    public DiscussionRoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_view_discussion_room, parent, false);
-        return new DiscussionRoomViewHolder(view);
+    public int getItemViewType(int position) {
+        return list.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
     }
 
     @Override
-    public void onBindViewHolder(final DiscussionRoomViewHolder holder, int position) {
-        final RuangDiskusiObject object = list.get(position);
-        ParseUser user = object.getUser();
-        holder.nameTextView.setText(user.getString("fullName"));
-        holder.tipeTextView.setText(object.getKategori());
-        holder.judulTextView.setText(object.getJudul());
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+        if (viewType == VIEW_TYPE_NORMAL) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.card_view_discussion_room, parent, false);
+            vh = new DiscussionRoomViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_progress, parent, false);
+            vh = new ProgressBarViewHolder(view);
+        }
+        return vh;
+    }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof DiscussionRoomViewHolder) {
+            RuangDiskusiObject object = list.get(position);
+            ParseUser user = object.getUser();
+            DiscussionRoomViewHolder viewHolder = (DiscussionRoomViewHolder) holder;
+            viewHolder.nameTextView.setText(user.getString("fullName"));
+            viewHolder.tipeTextView.setText(object.getKategori());
+            viewHolder.judulTextView.setText(object.getJudul());
+        } else {
+            ProgressBarViewHolder progressHolder = (ProgressBarViewHolder) holder;
+            progressHolder.progressBar.setIndeterminate(true);
+        }
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void addMoreList(List<RuangDiskusiObject> list) {
+        this.list.remove(this.list.size() - 1);
+        notifyItemRemoved(this.list.size() - 1);
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     public class DiscussionRoomViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
@@ -77,6 +102,15 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<DiscussionRoomAd
             if (clickListener != null) {
                 clickListener.onItemClickListener(v, getAdapterPosition());
             }
+        }
+    }
+
+    public class ProgressBarViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
+
+        public ProgressBarViewHolder(View itemView) {
+            super(itemView);
+            progressBar = ButterKnife.findById(itemView, R.id.progress_bar);
         }
     }
 

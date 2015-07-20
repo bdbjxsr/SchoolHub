@@ -2,7 +2,6 @@ package id.hub.school.schoolhub.view.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,22 +10,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,7 +32,6 @@ import id.hub.school.schoolhub.view.DiscussionView;
 import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter;
 import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter.ClickListener;
 import id.hub.school.schoolhub.view.widget.LoadingView;
-import timber.log.Timber;
 
 public class DiscussionFragment extends BaseFragment implements DiscussionView, ClickListener {
 
@@ -55,6 +44,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @Inject Tracker tracker;
 
     private Controller controller;
+    private DiscussionRoomAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,10 +82,21 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.loadDiscussionRoom();
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 presenter.reloadDiscussionRoom();
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                presenter.loadMoreDiscussionRoom(current_page);
             }
         });
     }
@@ -119,10 +120,9 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
 
     @Override
     public void showDiscussionRoom(List<RuangDiskusiObject> list) {
-        DiscussionRoomAdapter adapter = new DiscussionRoomAdapter(list);
+        list.add(null);
+        adapter = new DiscussionRoomAdapter(list);
         adapter.setClickListener(this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 
@@ -155,6 +155,12 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
 
     @Override
     public void hideRefreshLoading() { swipeRefreshLayout.setRefreshing(false); }
+
+    @Override
+    public void addMoreList(List<RuangDiskusiObject> list) {
+        list.add(null);
+        adapter.addMoreList(list);
+    }
 
     @Override
     public void onItemClickListener(View view, int position) {

@@ -61,7 +61,16 @@ public class OpenDiscussionPresenter implements BasePresenter, OpenDiscussionLis
         view.showError(message);
     }
 
+    @Override
+    public void onLoadMoreSuccess(List<OpenDiscussionObject> list) {
+        view.addMoreList(list);
+    }
+
     public void refreshComment(String objectId) {
         interactorImp.loadCommentDiscussion(objectId, this);
+    }
+
+    public void loadMoreComment(String objectId, int current_page) {
+        interactorImp.loadMoreCommentDiscussion(objectId, current_page, this);
     }
 }

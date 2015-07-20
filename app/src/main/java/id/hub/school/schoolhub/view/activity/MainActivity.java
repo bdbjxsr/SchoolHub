@@ -68,13 +68,7 @@ public final class MainActivity extends BaseActivity implements MainView,
         setupToolbar(toolbar);
         setupNavigationDrawer();
 
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null && bundle.containsKey(EXTRA_NOTIFICATION)) {
-            replaceWithScheduleFragment();
-        } else {
-            replaceWithHomeFragment();
-        }
+        replaceWithScheduleFragment();
     }
 
     private void setupNavigationDrawer() {
@@ -85,9 +79,6 @@ public final class MainActivity extends BaseActivity implements MainView,
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.navHome:
-                        replaceWithHomeFragment();
-                        break;
                     case R.id.navSchedule:
                         replaceWithScheduleFragment();
                         break;

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
@@ -16,36 +17,66 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
 
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final String SCHOOL_NAME = "schoolName";
     public static final String FULL_NAME = "fullName";
+
+    public static final int VIEW_TYPE_LOADING = 0;
+    public static final int VIEW_TYPE_NORMAL = 1;
 
     private List<OpenDiscussionObject> list;
 
     public CommentAdapter(List<OpenDiscussionObject> list) { this.list = list; }
 
     @Override
-    public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_view_open_discussion, parent, false);
-        return new CommentViewHolder(view);
+    public int getItemViewType(int position) {
+        return list.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
     }
 
     @Override
-    public void onBindViewHolder(CommentViewHolder holder, int position) {
-        OpenDiscussionObject object = list.get(position);
-        ParseUser user = object.getUser();
-        holder.answer.setText(object.getAnswer());
-        holder.schoolName.setText(user.getString(SCHOOL_NAME));
-        holder.name.setText(user.getString(FULL_NAME));
-        Picasso.with(holder.itemView.getContext())
-                .load(R.drawable.male).into(holder.circleImageView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+        if (viewType == VIEW_TYPE_NORMAL) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.card_view_open_discussion, parent, false);
+            vh = new CommentViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_progress, parent, false);
+            vh = new ProgressBarViewHolder(view);
+        }
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof CommentViewHolder) {
+            OpenDiscussionObject object = list.get(position);
+            ParseUser user = object.getUser();
+
+            CommentViewHolder viewHolder = (CommentViewHolder) holder;
+            viewHolder.answer.setText(object.getAnswer());
+            viewHolder.schoolName.setText(user.getString(SCHOOL_NAME));
+            viewHolder.name.setText(user.getString(FULL_NAME));
+            Picasso.with(holder.itemView.getContext())
+                    .load(R.drawable.male).into(viewHolder.circleImageView);
+        } else {
+            ProgressBarViewHolder progressHolder = (ProgressBarViewHolder) holder;
+            progressHolder.progressBar.setIndeterminate(true);
+        }
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void addMoreList(List<OpenDiscussionObject> list) {
+        this.list.remove(this.list.size() - 1);
+        notifyItemRemoved(this.list.size());
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +93,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             circleImageView = ButterKnife.findById(itemView, R.id.circleview);
             name = ButterKnife.findById(itemView, R.id.name);
             schoolName = ButterKnife.findById(itemView, R.id.school);
+        }
+    }
+
+    public class ProgressBarViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
+
+        public ProgressBarViewHolder(View itemView) {
+            super(itemView);
+            progressBar = ButterKnife.findById(itemView, R.id.progress_bar);
         }
     }
 }

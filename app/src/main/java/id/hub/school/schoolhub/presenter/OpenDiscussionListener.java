@@ -8,4 +8,6 @@ public interface OpenDiscussionListener {
     void onLoadSuccess(List<OpenDiscussionObject> list);
 
     void onLoadFailed(String message);
+
+    void onLoadMoreSuccess(List<OpenDiscussionObject> list);
 }

@@ -2,7 +2,6 @@ package id.hub.school.schoolhub.view.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,8 +33,8 @@ import id.hub.school.schoolhub.view.activity.OpenDiscussionActivity;
 import id.hub.school.schoolhub.view.adapter.CommentAdapter;
 import id.hub.school.schoolhub.view.widget.LoadingView;
 
-import static android.view.View.*;
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussionView {
 
@@ -53,6 +52,7 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @Inject Tracker tracker;
 
     private Controller controller;
+    private CommentAdapter adapter;
 
     public static OpenDiscussionFragment newInstance(String id, String question) {
         Bundle args = new Bundle();
@@ -99,9 +99,22 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.refreshComment(getArguments().getString(ARGS_OBJECT_ID));
+                reloadComment();
             }
         });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                presenter.loadMoreComment(getArguments().getString(ARGS_OBJECT_ID), current_page);
+            }
+        });
+    }
+
+    public void reloadComment() {
+        presenter.refreshComment(getArguments().getString(ARGS_OBJECT_ID));
     }
 
     @OnClick(R.id.fab)
@@ -116,9 +129,8 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
 
     @Override
     public void showComment(List<OpenDiscussionObject> list) {
-        CommentAdapter adapter = new CommentAdapter(list);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        list.add(null);
+        adapter = new CommentAdapter(list);
         recyclerView.setVisibility(VISIBLE);
         recyclerView.setAdapter(adapter);
     }
@@ -139,6 +151,12 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
 
     @Override
     public void hideRefresh() { swipeRefreshLayout.setRefreshing(false); }
+
+    @Override
+    public void addMoreList(List<OpenDiscussionObject> list) {
+        list.add(null);
+        adapter.addMoreList(list);
+    }
 
     @Override
     public void showProgress() { loadingView.setVisibility(VISIBLE); }
