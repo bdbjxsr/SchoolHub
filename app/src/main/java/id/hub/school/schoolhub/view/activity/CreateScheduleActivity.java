@@ -6,30 +6,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import javax.inject.Inject;
-
 import id.hub.school.schoolhub.R;
-import id.hub.school.schoolhub.SchoolHubApp;
-import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment;
-import id.hub.school.schoolhub.view.fragment.DiscussionFormFragment.Controller;
+import id.hub.school.schoolhub.view.fragment.CreateScheduleFragment;
 
-public class DiscussionFormActivity extends BaseActivity implements Controller {
-
-    @Inject Tracker tracker;
+public class CreateScheduleActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SchoolHubApp.get(this).component().inject(this);
-        tracker.setScreenName("Create Discussion Room");
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, new DiscussionFormFragment())
+                    .add(android.R.id.content, new CreateScheduleFragment())
                     .commit();
         }
     }
@@ -43,9 +31,9 @@ public class DiscussionFormActivity extends BaseActivity implements Controller {
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(getString(R.string.label_actionbar_title_create_discussion_room));
         actionBar.setHomeAsUpIndicator(ContextCompat.getDrawable(this,
                 R.drawable.ic_clear_white_24dp));
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -55,12 +43,6 @@ public class DiscussionFormActivity extends BaseActivity implements Controller {
                 onBackPressed();
                 break;
         }
-        return true;
-    }
-
-    @Override
-    public void setResultAndFinish() {
-        setResult(RESULT_OK);
-        finish();
+        return super.onOptionsItemSelected(item);
     }
 }

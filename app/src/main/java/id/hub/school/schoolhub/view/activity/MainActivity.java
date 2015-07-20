@@ -41,6 +41,7 @@ public final class MainActivity extends BaseActivity implements MainView,
 
     public static final String TAG_LOADING = "loading";
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
+    public static final int REQUEST_CODE_CREATE_SCHEDULE = 200;
 
     @Inject Tracker tracker;
 
@@ -206,7 +207,7 @@ public final class MainActivity extends BaseActivity implements MainView,
 
     @Override
     public void navigateToCreateDiscussion() {
-        startActivityForResult(new Intent(this, DiscussionFormActivity.class),
+        startActivityForResult(new Intent(this, CreateDiscussionActivity.class),
                 REQUEST_CODE_DISCUSSION_FORM);
     }
 
@@ -231,6 +232,7 @@ public final class MainActivity extends BaseActivity implements MainView,
 
     @Override
     public void navigateToCreateSchedule() {
-
+        startActivityForResult(new Intent(this, CreateScheduleActivity.class),
+                REQUEST_CODE_CREATE_SCHEDULE);
     }
 }

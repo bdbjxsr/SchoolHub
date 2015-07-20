@@ -59,11 +59,15 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
-            android:name=".view.activity.DiscussionFormActivity"
+            android:name=".view.activity.CreateDiscussionActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".view.activity.CreateCommentActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".view.activity.CreateScheduleActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
     </application>

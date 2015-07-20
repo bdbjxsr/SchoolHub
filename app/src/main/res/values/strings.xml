@@ -28,6 +28,17 @@
     <string name="label_empty_comment">No Answer Yet.</string>
     <string name="label_your_answer_edittext">Your answer</string>
     <string name="label_empty_schedule">No schedule yet</string>
+    <string name="label_title_edittext">Title</string>
+
+    <string name="label_monday_rad_button">MONDAY</string>
+    <string name="label_tuesday_rad_button">TUESDAY</string>
+    <string name="label_wednesday_rad_button">WEDNESDAY</string>
+    <string name="label_thrusday_rad_button">THURSDAY</string>
+    <string name="label_friday_rad_button">FRIDAY</string>
+    <string name="label_every">Every</string>
+    <string name="label_at_time">At time</string>
+    <string name="label_default_time">00</string>
+    <string name="label_separator_time">:</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

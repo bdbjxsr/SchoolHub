@@ -13,11 +13,10 @@ import javax.inject.Inject;
 
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
-import id.hub.school.schoolhub.view.fragment.CreateCommentFragment;
+import id.hub.school.schoolhub.view.fragment.CreateDiscussionFragment;
+import id.hub.school.schoolhub.view.fragment.CreateDiscussionFragment.Controller;
 
-public class CreateCommentActivity extends BaseActivity implements CreateCommentFragment.Controller {
-
-    public static final String EXTRA_OBJECT_ID = "extra_object_id";
+public class CreateDiscussionActivity extends BaseActivity implements Controller {
 
     @Inject Tracker tracker;
 
@@ -25,17 +24,12 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SchoolHubApp.get(this).component().inject(this);
-
-        tracker.setScreenName("Create Comment");
+        tracker.setScreenName("Create Discussion Room");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-        Bundle bundle = getIntent().getExtras();
-
         if (savedInstanceState == null) {
-            CreateCommentFragment fragment = CreateCommentFragment
-                    .newInstance(bundle.getString(EXTRA_OBJECT_ID));
             getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, fragment)
+                    .add(android.R.id.content, new CreateDiscussionFragment())
                     .commit();
         }
     }
@@ -49,6 +43,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(getString(R.string.label_actionbar_title_create_discussion_room));
         actionBar.setHomeAsUpIndicator(ContextCompat.getDrawable(this,
                 R.drawable.ic_clear_white_24dp));
         actionBar.setDisplayShowTitleEnabled(false);
@@ -65,7 +60,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
     }
 
     @Override
-    public void finishSubmit() {
+    public void setResultAndFinish() {
         setResult(RESULT_OK);
         finish();
     }

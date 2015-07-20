@@ -26,9 +26,9 @@ import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.presenter.DiscussionFormPresenter;
 import id.hub.school.schoolhub.view.DiscussionFormView;
-import id.hub.school.schoolhub.view.activity.DiscussionFormActivity;
+import id.hub.school.schoolhub.view.activity.CreateDiscussionActivity;
 
-public class DiscussionFormFragment extends BaseFragment implements DiscussionFormView {
+public class CreateDiscussionFragment extends BaseFragment implements DiscussionFormView {
 
     public static final String LOADING_TAG = "loading_tag";
     @InjectView(R.id.action_bar) Toolbar toolbar;
@@ -67,7 +67,7 @@ public class DiscussionFormFragment extends BaseFragment implements DiscussionFo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((DiscussionFormActivity) getActivity()).setupToolbar(toolbar);
+        ((CreateDiscussionActivity) getActivity()).setupToolbar(toolbar);
     }
 
     @Override
