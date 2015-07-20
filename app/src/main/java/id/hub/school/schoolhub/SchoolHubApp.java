@@ -3,10 +3,12 @@ package id.hub.school.schoolhub;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
 
 import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
@@ -22,6 +24,7 @@ public class SchoolHubApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         component = SchoolHubComponent.Initializer.init(this);
         component.inject(this);

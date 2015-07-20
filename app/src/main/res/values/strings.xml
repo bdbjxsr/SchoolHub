@@ -39,6 +39,7 @@
     <string name="label_at_time">At time</string>
     <string name="label_default_time">00</string>
     <string name="label_separator_time">:</string>
+    <string name="label_empty_question">No Question Yet</string>
 
     <string-array name="countries_array">
         <item>Afghanistan</item>

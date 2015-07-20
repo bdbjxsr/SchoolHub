@@ -43,12 +43,19 @@ public class DiscussionPresenter implements BasePresenter, LoadDiscussionRoomLis
     @Override
     public void onLoadSuccess(List<RuangDiskusiObject> list) {
         view.hideLoading();
-        view.showDiscussionRoom(list);
+
+        if (list.size() > 0 ){
+            view.hideEmptyView();
+            view.showDiscussionRoom(list);
+        } else {
+            view.showEmptyView();
+        }
     }
 
     @Override
     public void onLoadFailed(String message) {
         view.showError(message);
+        view.hideEmptyView();
         view.hideLoading();
     }
 

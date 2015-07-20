@@ -72,6 +72,9 @@
 
         <service android:name=".service.NotifyService"
             android:enabled="true" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="186fb315fa0f9561876753edfc00fa80567af855" />
     </application>
 
 </manifest>

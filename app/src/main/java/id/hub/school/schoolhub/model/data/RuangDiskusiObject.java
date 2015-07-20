@@ -13,6 +13,7 @@ public class RuangDiskusiObject extends ParseObject {
     public static final String KEY_KATEGORI = "kategori";
     public static final String KEY_QUESTION = "question";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_COMMENT_COUNT = "commentCount";
 
     public RuangDiskusiObject() {}
 
@@ -35,4 +36,8 @@ public class RuangDiskusiObject extends ParseObject {
     public void setImage(ParseFile file) { put(KEY_IMAGE, file); }
 
     public ParseFile getImage() { return getParseFile(KEY_IMAGE); }
+
+    public void setCommentCount(int commentCount) { put(KEY_COMMENT_COUNT, commentCount); }
+
+    public int getCommentCount() { return getInt(KEY_COMMENT_COUNT); }
 }

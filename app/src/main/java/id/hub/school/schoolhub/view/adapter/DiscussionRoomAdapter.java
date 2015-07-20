@@ -65,6 +65,7 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             viewHolder.nameTextView.setText(user.getString("fullName"));
             viewHolder.tipeTextView.setText(object.getKategori());
             viewHolder.judulTextView.setText(object.getJudul());
+            viewHolder.commentCountTextView.setText(String.valueOf(object.getCommentCount()));
         } else {
             ProgressBarViewHolder progressHolder = (ProgressBarViewHolder) holder;
             progressHolder.progressBar.setIndeterminate(true);
@@ -88,6 +89,7 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView tipeTextView;
         TextView judulTextView;
         TextView nameTextView;
+        TextView commentCountTextView;
 
         public DiscussionRoomViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +99,7 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tipeTextView = ButterKnife.findById(itemView, R.id.tipe);
             judulTextView = ButterKnife.findById(itemView, R.id.judul);
             nameTextView = ButterKnife.findById(itemView, R.id.name);
+            commentCountTextView = ButterKnife.findById(itemView, R.id.comment_count);
         }
 
         @Override

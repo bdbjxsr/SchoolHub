@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -32,6 +33,7 @@ import id.hub.school.schoolhub.view.DiscussionView;
 import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter;
 import id.hub.school.schoolhub.view.adapter.DiscussionRoomAdapter.ClickListener;
 import id.hub.school.schoolhub.view.widget.LoadingView;
+import id.hub.school.schoolhub.view.widget.decorator.DividerItemDecoration;
 
 public class DiscussionFragment extends BaseFragment implements DiscussionView, ClickListener {
 
@@ -39,6 +41,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @InjectView(R.id.loading_view) LoadingView loadingView;
     @InjectView(R.id.recyclerview) RecyclerView recyclerView;
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @InjectView(R.id.empty) TextView empty;
 
     @Inject DiscussionPresenter presenter;
     @Inject Tracker tracker;
@@ -95,6 +98,8 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
             }
         });
 
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                LinearLayoutManager.VERTICAL));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -132,8 +137,20 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     public void hideLoading() { loadingView.setVisibility(View.GONE); }
 
     @Override
+    public void showEmptyView() {
+        swipeRefreshLayout.setVisibility(View.GONE);
+        empty.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyView() {
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        empty.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showDiscussionRoom(List<RuangDiskusiObject> list) {
-        list.add(null);
+        if (list.size() >= 10) { list.add(null); }
         adapter.setList(list);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
@@ -146,7 +163,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
 
     @Override
     public void reloadDiscussionRoom(List<RuangDiskusiObject> list) {
-        list.add(null);
+        if (list.size() >= 10) { list.add(null); }
         adapter.setList(list);
         adapter.notifyDataSetChanged();
     }
@@ -179,7 +196,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @Override
     public void addMoreList(List<RuangDiskusiObject> list) {
         loading = false;
-        list.add(null);
+        if (list.size() >= 10) { list.add(null); }
         adapter.addMoreList(list);
     }
 

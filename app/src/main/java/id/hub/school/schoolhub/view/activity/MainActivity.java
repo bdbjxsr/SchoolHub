@@ -136,8 +136,9 @@ public final class MainActivity extends BaseActivity implements MainView,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_DISCUSSION_FORM) {
-            // TODO fajar: call interactor to reload list discussion room from fragment presenter
-            openFragment(new DiscussionFragment());
+            if (resultCode == RESULT_OK) {
+                openFragment(new DiscussionFragment());
+            }
         }
 
         if (requestCode == REQUEST_CODE_CREATE_SCHEDULE) {

@@ -30,6 +30,7 @@ public class DiscussionFormInteractorImp implements DiscussionFormInteractor {
             object.setJudul(title);
             object.setQuestion(question);
             object.setUser(ParseUser.getCurrentUser());
+            object.setCommentCount(0);
             object.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {

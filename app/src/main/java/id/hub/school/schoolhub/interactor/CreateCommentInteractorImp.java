@@ -29,7 +29,7 @@ public class CreateCommentInteractorImp implements CreateCommentInteractor {
         if (TextUtils.isEmpty(answer)) {
             listener.onAnswerError("Answer cannot be empty");
         } else {
-            RuangDiskusiObject ruangDiskusiObject =
+            final RuangDiskusiObject ruangDiskusiObject =
                     ParseObject.createWithoutData(RuangDiskusiObject.class, objectId);
 
             OpenDiscussionObject object = new OpenDiscussionObject();
@@ -41,6 +41,9 @@ public class CreateCommentInteractorImp implements CreateCommentInteractor {
                 public void done(ParseException e) {
                     if (e == null) {
                         listener.onSuccessCreateComment();
+
+                        ruangDiskusiObject.setCommentCount(1);
+                        ruangDiskusiObject.saveInBackground();
                     } else {
                         listener.onFailedCreateComment(e.getMessage());
                     }

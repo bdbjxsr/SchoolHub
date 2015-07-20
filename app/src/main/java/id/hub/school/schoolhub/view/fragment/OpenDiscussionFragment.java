@@ -146,7 +146,7 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
 
     @Override
     public void showComment(List<OpenDiscussionObject> list) {
-        list.add(null);
+        if (list.size() >= 10) { list.add(null); }
         adapter.setList(list);
         recyclerView.setVisibility(VISIBLE);
         recyclerView.setAdapter(adapter);
@@ -178,13 +178,13 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @Override
     public void addMoreList(List<OpenDiscussionObject> list) {
         loading = false;
-        list.add(null);
+        if (list.size() >= 10) { list.add(null); }
         adapter.addMoreList(list);
     }
 
     @Override
     public void reloadList(List<OpenDiscussionObject> list) {
-        list.add(null);
+        if (list.size() >= 10) { list.add(null); }
         adapter.setList(list);
         adapter.notifyDataSetChanged();
     }
