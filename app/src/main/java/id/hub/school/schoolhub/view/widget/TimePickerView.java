@@ -53,4 +53,8 @@ public class TimePickerView extends FrameLayout {
         }
         minuteTextView.setText(stringMinute);
     }
+
+    public String getTime() {
+        return hourTextView.getText() + ":" + minuteTextView.getText();
+    }
 }

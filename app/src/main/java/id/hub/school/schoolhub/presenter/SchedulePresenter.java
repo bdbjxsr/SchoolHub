@@ -35,7 +35,7 @@ public class SchedulePresenter implements BasePresenter {
                     public ParseQuery<ScheduleObject> create() {
                         ParseQuery<ScheduleObject> query = ScheduleObject.getQuery();
                         query.whereMatches(ScheduleObject.DAY, page);
-                        query.orderByDescending("createdAt");
+                        query.orderByAscending(ScheduleObject.TIME);
                         query.fromLocalDatastore();
                         return query;
                     }

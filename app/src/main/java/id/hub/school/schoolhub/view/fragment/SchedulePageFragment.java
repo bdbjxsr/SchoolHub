@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,8 @@ import id.hub.school.schoolhub.presenter.SchedulePresenter;
 import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.SchedulePageView;
 import id.hub.school.schoolhub.view.adapter.ScheduleAdapter;
-import id.hub.school.schoolhub.view.widget.LoadingView;
 
-public class SchedulePageFragment extends BaseFragment implements SchedulePageView {
+public class SchedulePageFragment extends Fragment implements SchedulePageView {
     public static final String ARG_PAGE = "arg_page";
 
     @InjectView(R.id.list_item) ListView listView;
@@ -31,11 +31,10 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
 
     @Inject SchedulePresenter presenter;
 
-    private int currentPage;
-
     public static SchedulePageFragment newInstance(int page) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
+
         SchedulePageFragment fragment = new SchedulePageFragment();
         fragment.setArguments(args);
         return fragment;
@@ -46,12 +45,6 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
         super.onAttach(activity);
         SchoolHubApp.get(activity).component().inject(this);
         presenter.setView(this);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        currentPage = getArguments().getInt(ARG_PAGE);
     }
 
     @Nullable
@@ -66,13 +59,14 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        showProgress();
         listView.setEmptyView(empty);
-        presenter.loadSchedule(ConvertUtil.convertToDayName(currentPage));
+        showProgress();
+        presenter.loadSchedule(ConvertUtil.convertToDayName(getArguments().getInt(ARG_PAGE)));
     }
 
     @Override
     public void showListSchedule(ScheduleAdapter adapter) {
+        hideProgress();
         listView.setAdapter(adapter);
     }
 
@@ -94,8 +88,6 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
     }
 
     @Override
-    public Context getContext() {
-        return getActivity();
-    }
+    public Context getContext() { return getActivity(); }
 
 }

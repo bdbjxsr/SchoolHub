@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 import id.hub.school.schoolhub.model.data.ScheduleObject;
+import timber.log.Timber;
 
 public class SchoolHubApp extends Application {
     private SchoolHubGraph component;

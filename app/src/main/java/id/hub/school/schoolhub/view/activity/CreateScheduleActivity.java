@@ -8,8 +8,9 @@ import android.view.MenuItem;
 
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.view.fragment.CreateScheduleFragment;
+import id.hub.school.schoolhub.view.fragment.CreateScheduleFragment.Controller;
 
-public class CreateScheduleActivity extends BaseActivity {
+public class CreateScheduleActivity extends BaseActivity implements Controller {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +45,11 @@ public class CreateScheduleActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finishCreateSchedule() {
+        setResult(RESULT_OK);
+        finish();
     }
 }

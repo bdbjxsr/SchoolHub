@@ -136,6 +136,10 @@ public final class MainActivity extends BaseActivity implements MainView,
             // TODO fajar: call interactor to reload list discussion room from fragment presenter
             openFragment(new DiscussionFragment());
         }
+
+        if (requestCode == REQUEST_CODE_CREATE_SCHEDULE) {
+            openFragment(new ScheduleFragment());
+        }
     }
 
     @Override

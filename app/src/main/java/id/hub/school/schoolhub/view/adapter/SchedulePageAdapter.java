@@ -1,30 +1,30 @@
 package id.hub.school.schoolhub.view.adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View;
 
+import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.fragment.SchedulePageFragment;
 
-public class SchedulePageAdapter extends FragmentPagerAdapter {
+public class SchedulePageAdapter extends FragmentStatePagerAdapter {
     private final int PAGE_COUNT = 5;
 
-    private String tabTitle[] = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-
-    private Context context;
-
-    public SchedulePageAdapter(FragmentManager fm, Context context) {
-        super(fm);
-        this.context = context;
-    }
+    public SchedulePageAdapter(FragmentManager fm) { super(fm); }
 
     @Override
-    public Fragment getItem(int position) { return SchedulePageFragment.newInstance(position+1); }
+    public SchedulePageFragment getItem(int position) {
+        return SchedulePageFragment.newInstance(position);
+    }
 
     @Override
     public int getCount() { return PAGE_COUNT; }
 
     @Override
-    public CharSequence getPageTitle(int position) { return tabTitle[position]; }
+    public CharSequence getPageTitle(int position) {
+        return ConvertUtil.convertToDayName(position);
+    }
+
 }
