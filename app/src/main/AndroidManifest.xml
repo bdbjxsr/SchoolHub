@@ -70,6 +70,8 @@
             android:name=".view.activity.CreateScheduleActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
+        <service android:name=".service.NotifyService"
+            android:enabled="true" />
     </application>
 
 </manifest>

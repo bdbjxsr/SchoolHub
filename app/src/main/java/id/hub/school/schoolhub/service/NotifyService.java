@@ -22,20 +22,23 @@ public class NotifyService extends Service {
         super.onCreate();
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationManager mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+
         Intent intent = new Intent(this , MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_NOTIFICATION, true);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Notification notification = new Notification.Builder(this)
                 .setContentTitle("School Hub")
-                .setContentText("Reminder for your class tomorrow")
+                .setContentText("Reminder for your class today")
                 .setSmallIcon(R.drawable.ic_alarm_white_24dp)
                 .setContentIntent(contentIntent)
                 .setSound(sound)
                 .addAction(0, "Open My Schedules", contentIntent)
                 .build();
 
-        mNM.notify(NOTIFICATION, notification);
+        notificationManager.notify(NOTIFICATION, notification);
     }
 
     @Nullable

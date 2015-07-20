@@ -45,6 +45,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     public static final String TAG_LOADING = "loading";
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
     public static final int REQUEST_CODE_CREATE_SCHEDULE = 200;
+    public static final String EXTRA_NOTIFICATION = "extra_notification";
 
     @Inject Tracker tracker;
 
@@ -66,6 +67,14 @@ public final class MainActivity extends BaseActivity implements MainView,
 
         setupToolbar(toolbar);
         setupNavigationDrawer();
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null && bundle.containsKey(EXTRA_NOTIFICATION)) {
+            replaceWithScheduleFragment();
+        } else {
+            replaceWithHomeFragment();
+        }
     }
 
     private void setupNavigationDrawer() {

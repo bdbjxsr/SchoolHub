@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +47,7 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @InjectView(R.id.loading_view) LoadingView loadingView;
     @InjectView(R.id.recyclerview) RecyclerView recyclerView;
     @InjectView(R.id.empty) TextView empty;
+    @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject OpenDiscussionPresenter presenter;
     @Inject Tracker tracker;
@@ -93,6 +95,13 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
         questionHeaderTextView.setText(getArguments().getString(ARGS_QUESTION));
 
         presenter.loadComment(getArguments().getString(ARGS_OBJECT_ID));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refreshComment(getArguments().getString(ARGS_OBJECT_ID));
+            }
+        });
     }
 
     @OnClick(R.id.fab)
@@ -127,6 +136,9 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
 
     @Override
     public String getDiscussionObectId() { return getArguments().getString(ARGS_OBJECT_ID, ""); }
+
+    @Override
+    public void hideRefresh() { swipeRefreshLayout.setRefreshing(false); }
 
     @Override
     public void showProgress() { loadingView.setVisibility(VISIBLE); }

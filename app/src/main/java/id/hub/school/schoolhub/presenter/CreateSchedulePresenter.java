@@ -48,7 +48,7 @@ public class CreateSchedulePresenter implements BasePresenter, CreateScheduleLis
     @Override
     public void onCreateScheduleSuccess() {
         view.hideProgress();
-        view.finishCreateSchedule(ConvertUtil.convertToDayPositionOnWeek(view.getDay()));
+        view.finishCreateSchedule(ConvertUtil.convertToDayPositionOnPage(view.getDay()));
     }
 
     @Override

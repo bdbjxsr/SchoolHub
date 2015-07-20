@@ -44,6 +44,7 @@ public class OpenDiscussionPresenter implements BasePresenter, OpenDiscussionLis
     @Override
     public void onLoadSuccess(List<OpenDiscussionObject> list) {
         view.hideProgress();
+        view.hideRefresh();
 
         if (list.size() > 0) {
             view.showComment(list);
@@ -55,7 +56,12 @@ public class OpenDiscussionPresenter implements BasePresenter, OpenDiscussionLis
     @Override
     public void onLoadFailed(String message) {
         view.hideProgress();
+        view.hideRefresh();
         view.showRetry();
         view.showError(message);
+    }
+
+    public void refreshComment(String objectId) {
+        interactorImp.loadCommentDiscussion(objectId, this);
     }
 }

@@ -26,7 +26,7 @@ public final class ConvertUtil {
         return null;
     }
 
-    public static int convertToDayPositionOnWeek(String day) {
+    public static int convertToDayPositionOnPage(String day) {
         switch (day) {
             case MONDAY:
                 return 0;
@@ -38,6 +38,22 @@ public final class ConvertUtil {
                 return 3;
             case FRIDAY:
                 return 4;
+        }
+        return 0;
+    }
+
+    public static int convertToDayPositionOnWeek(String day) {
+        switch (day) {
+            case MONDAY:
+                return 2;
+            case TUESDAY:
+                return 3;
+            case WEDNESDAY:
+                return 4;
+            case THURSDAY:
+                return 5;
+            case FRIDAY:
+                return 6;
         }
         return 0;
     }

@@ -14,4 +14,6 @@ public interface OpenDiscussionView extends LoadDataView {
     void navigateToCreateComment(String objectId);
 
     String getDiscussionObectId();
+
+    void hideRefresh();
 }

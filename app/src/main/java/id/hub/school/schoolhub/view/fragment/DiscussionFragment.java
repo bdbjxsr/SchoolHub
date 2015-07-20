@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,6 +49,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @InjectView(R.id.fab) FloatingActionButton fab;
     @InjectView(R.id.loading_view) LoadingView loadingView;
     @InjectView(R.id.recyclerview) RecyclerView recyclerView;
+    @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject DiscussionPresenter presenter;
     @Inject Tracker tracker;
@@ -76,9 +79,10 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         View view = inflater.inflate(R.layout.fragment_discussion, container, false);
         ButterKnife.inject(this, view);
 
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(llm);
 
         return view;
@@ -88,7 +92,12 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.loadDiscussionRoom();
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.reloadDiscussionRoom();
+            }
+        });
     }
 
     @OnClick(R.id.fab)
@@ -143,6 +152,9 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     public Context getContext() {
         return getActivity();
     }
+
+    @Override
+    public void hideRefreshLoading() { swipeRefreshLayout.setRefreshing(false); }
 
     @Override
     public void onItemClickListener(View view, int position) {
