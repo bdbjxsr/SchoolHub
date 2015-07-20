@@ -21,6 +21,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -35,6 +37,7 @@ import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
 
 import static android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import static java.util.Calendar.*;
 
 public final class MainActivity extends BaseActivity implements MainView,
         DiscussionFragment.Controller, ScheduleFragment.Controller {
@@ -138,7 +141,10 @@ public final class MainActivity extends BaseActivity implements MainView,
         }
 
         if (requestCode == REQUEST_CODE_CREATE_SCHEDULE) {
-            openFragment(new ScheduleFragment());
+            if (resultCode == RESULT_OK) {
+                int day  = data.getIntExtra(CreateScheduleActivity.EXTRA_POSITION, 0);
+                openFragment(ScheduleFragment.newInstance(day));
+            }
         }
     }
 
@@ -157,7 +163,15 @@ public final class MainActivity extends BaseActivity implements MainView,
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         toolbar.setTitle("Schedule");
-        openFragment(new ScheduleFragment());
+
+        Calendar c = getInstance();
+        int dayOfWeek = c.get(DAY_OF_WEEK);
+        if (dayOfWeek == 1 || dayOfWeek == 7) {
+            dayOfWeek = 0;
+        } else {
+            dayOfWeek = dayOfWeek - 2;
+        }
+        openFragment(ScheduleFragment.newInstance(dayOfWeek));
     }
 
     @Override
@@ -235,8 +249,9 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     @Override
-    public void navigateToCreateSchedule() {
-        startActivityForResult(new Intent(this, CreateScheduleActivity.class),
-                REQUEST_CODE_CREATE_SCHEDULE);
+    public void navigateToCreateSchedule(int position) {
+        Intent intent= new Intent(this, CreateScheduleActivity.class);
+        intent.putExtra(CreateScheduleActivity.EXTRA_POSITION, position);
+        startActivityForResult(intent, REQUEST_CODE_CREATE_SCHEDULE);
     }
 }

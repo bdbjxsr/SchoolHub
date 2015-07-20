@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import id.hub.school.schoolhub.interactor.CreateScheduleInteractorImp;
+import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.CreateScheduleView;
 
 @Singleton
@@ -47,7 +48,7 @@ public class CreateSchedulePresenter implements BasePresenter, CreateScheduleLis
     @Override
     public void onCreateScheduleSuccess() {
         view.hideProgress();
-        view.finishCreateSchedule();
+        view.finishCreateSchedule(ConvertUtil.convertToDayPositionOnWeek(view.getDay()));
     }
 
     @Override

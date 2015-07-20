@@ -1,6 +1,8 @@
 package id.hub.school.schoolhub.view;
 
 public interface CreateScheduleView extends LoadDataView {
+    void setDay();
+
     void showTitleError(String message);
 
     void hideTitleError();
@@ -11,5 +13,5 @@ public interface CreateScheduleView extends LoadDataView {
 
     String getTime();
 
-    void finishCreateSchedule();
+    void finishCreateSchedule(int day);
 }

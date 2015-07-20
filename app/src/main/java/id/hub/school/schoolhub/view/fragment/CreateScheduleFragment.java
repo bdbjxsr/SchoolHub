@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
 
     public static final String TAG_TIME_PICKER = "timePicker";
     public static final String TAG_LOADING = "loading";
+    public static final String ARG_POSITION = "arg_position";
 
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.time_picker_view) TimePickerView timePickerView;
@@ -39,8 +41,14 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
 
     private Controller controller;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public static CreateScheduleFragment newInstance(int position) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_POSITION, position);
+
+        CreateScheduleFragment fragment = new CreateScheduleFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -66,6 +74,7 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((CreateScheduleActivity) getActivity()).setupToolbar(toolbar);
+        setDay();
     }
 
     @OnClick(R.id.time_picker_view)
@@ -77,6 +86,13 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
 
     @OnClick(R.id.button_submit)
     void onSubmitButtonClick() { presenter.onSubmitClick(); }
+
+    @Override
+    public void setDay() {
+        RadioButton radioButton = (RadioButton)
+                dayRadGroup.getChildAt(getArguments().getInt(ARG_POSITION));
+        radioButton.setChecked(true);
+    }
 
     @Override
     public void showTitleError(String message) {
@@ -111,8 +127,8 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     public String getTime() { return timePickerView.getTime(); }
 
     @Override
-    public void finishCreateSchedule() {
-        controller.finishCreateSchedule();
+    public void finishCreateSchedule(int day) {
+        controller.finishCreateSchedule(day);
     }
 
     @Override
@@ -143,6 +159,6 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     }
 
     public interface Controller {
-        void finishCreateSchedule();
+        void finishCreateSchedule(int position);
     }
 }

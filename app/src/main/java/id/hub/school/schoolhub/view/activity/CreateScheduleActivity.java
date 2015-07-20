@@ -1,5 +1,6 @@
 package id.hub.school.schoolhub.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -12,13 +13,18 @@ import id.hub.school.schoolhub.view.fragment.CreateScheduleFragment.Controller;
 
 public class CreateScheduleActivity extends BaseActivity implements Controller {
 
+    public static final String EXTRA_POSITION = "extra_position";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle bundle = getIntent().getExtras();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, new CreateScheduleFragment())
+                    .add(android.R.id.content,
+                            CreateScheduleFragment.newInstance(bundle.getInt(EXTRA_POSITION)))
                     .commit();
         }
     }
@@ -48,8 +54,10 @@ public class CreateScheduleActivity extends BaseActivity implements Controller {
     }
 
     @Override
-    public void finishCreateSchedule() {
-        setResult(RESULT_OK);
+    public void finishCreateSchedule(int day) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_POSITION, day);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

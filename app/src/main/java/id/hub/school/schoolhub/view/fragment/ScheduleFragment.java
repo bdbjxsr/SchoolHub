@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -19,12 +20,22 @@ import timber.log.Timber;
 
 public class ScheduleFragment extends BaseFragment {
 
-    public static final int OFFSCREEN_PAGE_LIMIT = 1;
+
+    public static final String ARG_DAY = "arg_day";
     @InjectView(R.id.tabs) TabLayout tabs;
     @InjectView(R.id.view_pager) ViewPager viewPager;
 
     private Controller controller;
     private SchedulePageAdapter adapter;
+
+    public static ScheduleFragment newInstance(int day) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_DAY, day);
+
+        ScheduleFragment fragment = new ScheduleFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -42,14 +53,15 @@ public class ScheduleFragment extends BaseFragment {
         ButterKnife.inject(this, view);
         adapter = new SchedulePageAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(getArguments().getInt(ARG_DAY));
         tabs.setupWithViewPager(viewPager);
         return view;
     }
 
     @OnClick(R.id.fab)
-    void onFABClick() { controller.navigateToCreateSchedule(); }
+    void onFABClick() { controller.navigateToCreateSchedule(viewPager.getCurrentItem()); }
 
     public interface Controller {
-        void navigateToCreateSchedule();
+        void navigateToCreateSchedule(int position);
     }
 }

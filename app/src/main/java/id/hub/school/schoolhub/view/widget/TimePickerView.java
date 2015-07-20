@@ -40,21 +40,19 @@ public class TimePickerView extends FrameLayout {
 
     public void setHour(int hour) {
         String stringHour = String.valueOf(hour);
-        if (hour < 10) {
-            stringHour = "0" + hour;
-        }
+        if (hour < 10) { stringHour = "0" + hour; }
         hourTextView.setText(stringHour);
     }
 
     public void setMinute(int minute) {
         String stringMinute = String.valueOf(minute);
-        if (minute < 10) {
-            stringMinute = "0" + minute;
-        }
+        if (minute < 10) { stringMinute = "0" + minute; }
         minuteTextView.setText(stringMinute);
     }
 
-    public String getTime() {
-        return hourTextView.getText() + ":" + minuteTextView.getText();
-    }
+    public int getHour() { return Integer.parseInt(hourTextView.getText().toString()); }
+
+    public int getMinute() { return Integer.parseInt(minuteTextView.getText().toString()); }
+
+    public String getTime() { return hourTextView.getText() + ":" + minuteTextView.getText(); }
 }
