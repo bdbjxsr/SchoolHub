@@ -9,7 +9,7 @@ import android.view.View;
 import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.fragment.SchedulePageFragment;
 
-public class SchedulePageAdapter extends FragmentStatePagerAdapter {
+public class SchedulePageAdapter extends SmartFragmentStatePagerAdapter {
     private final int PAGE_COUNT = 5;
 
     public SchedulePageAdapter(FragmentManager fm) { super(fm); }

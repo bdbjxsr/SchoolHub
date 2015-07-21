@@ -13,5 +13,5 @@ public interface MainView extends LoadDataView {
 
     void replaceWithDiscussionFragment();
 
-    void openFragment(Fragment fragment);
+    void replaceFragment(Fragment fragment);
 }

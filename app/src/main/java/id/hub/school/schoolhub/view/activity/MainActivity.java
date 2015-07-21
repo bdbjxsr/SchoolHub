@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +22,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -30,6 +29,7 @@ import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
+import id.hub.school.schoolhub.utils.TimeUtil;
 import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.HomeFragment;
@@ -37,7 +37,6 @@ import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
 
 import static android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import static java.util.Calendar.*;
 
 public final class MainActivity extends BaseActivity implements MainView,
         DiscussionFragment.Controller, ScheduleFragment.Controller {
@@ -46,6 +45,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
     public static final int REQUEST_CODE_CREATE_SCHEDULE = 200;
     public static final String EXTRA_NOTIFICATION = "extra_notification";
+    public static final String STATE_SELECTED_NAV_ITEM = "state_selected_nav_item";
 
     @Inject Tracker tracker;
 
@@ -57,6 +57,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     @InjectView(R.id.schoolname) TextView schoolNameTextView;
 
     private ActionBarDrawerToggle drawerToggle;
+    private int currentSelectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,29 @@ public final class MainActivity extends BaseActivity implements MainView,
         setupToolbar(toolbar);
         setupNavigationDrawer();
 
-        replaceWithScheduleFragment();
+        if (savedInstanceState != null) {
+            currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_NAV_ITEM);
+        } else {
+            currentSelectedPosition = 0;
+        }
+
+        if (currentSelectedPosition == 0 ) {
+            replaceWithScheduleFragment();
+        } else {
+            replaceWithDiscussionFragment();
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_NAV_ITEM, 0);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_SELECTED_NAV_ITEM, currentSelectedPosition);
     }
 
     private void setupNavigationDrawer() {
@@ -81,9 +104,11 @@ public final class MainActivity extends BaseActivity implements MainView,
                 switch (menuItem.getItemId()) {
                     case R.id.navSchedule:
                         replaceWithScheduleFragment();
+                        currentSelectedPosition = 0;
                         break;
                     case R.id.navDiscussion:
                         replaceWithDiscussionFragment();
+                        currentSelectedPosition = 1;
                         break;
                     case R.id.navSignOut:
                         signOutApplication();
@@ -137,14 +162,14 @@ public final class MainActivity extends BaseActivity implements MainView,
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_DISCUSSION_FORM) {
             if (resultCode == RESULT_OK) {
-                openFragment(new DiscussionFragment());
+                replaceFragment(new DiscussionFragment());
             }
         }
 
         if (requestCode == REQUEST_CODE_CREATE_SCHEDULE) {
             if (resultCode == RESULT_OK) {
                 int day  = data.getIntExtra(CreateScheduleActivity.EXTRA_POSITION, 0);
-                openFragment(ScheduleFragment.newInstance(day));
+                replaceFragment(ScheduleFragment.newInstance(day));
             }
         }
     }
@@ -155,7 +180,7 @@ public final class MainActivity extends BaseActivity implements MainView,
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         toolbar.setTitle(getString(R.string.app_name));
-        openFragment(new HomeFragment());
+        replaceFragment(new HomeFragment());
     }
 
     @Override
@@ -163,16 +188,11 @@ public final class MainActivity extends BaseActivity implements MainView,
         tracker.setScreenName("Schedule");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-        toolbar.setTitle("Schedule");
-
-        Calendar c = getInstance();
-        int dayOfWeek = c.get(DAY_OF_WEEK);
-        if (dayOfWeek == 1 || dayOfWeek == 7) {
-            dayOfWeek = 0;
-        } else {
-            dayOfWeek = dayOfWeek - 2;
+        if (getSupportActionBar() != null ) {
+            getSupportActionBar().setTitle(R.string.title_schedule_screen);
         }
-        openFragment(ScheduleFragment.newInstance(dayOfWeek));
+
+        replaceFragment(ScheduleFragment.newInstance(TimeUtil.getCurrentDayOnWeek()));
     }
 
     @Override
@@ -180,12 +200,15 @@ public final class MainActivity extends BaseActivity implements MainView,
         tracker.setScreenName("Discussion Room");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-        toolbar.setTitle("Discussion Room");
-        openFragment(new DiscussionFragment());
+        if (getSupportActionBar() != null ) {
+            getSupportActionBar().setTitle(R.string.title_discussion_screen);
+        }
+
+        replaceFragment(new DiscussionFragment());
     }
 
     @Override
-    public void openFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         drawerLayout.closeDrawers();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, fragment).commit();
@@ -220,9 +243,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     @Override
-    public Context getContext() {
-        return null;
-    }
+    public Context getContext() { return this; }
 
     @Override
     public void navigateToCreateDiscussion() {

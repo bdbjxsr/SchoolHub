@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Field;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -46,16 +48,33 @@ public class ScheduleFragment extends BaseFragment {
         controller = (Controller) activity;
     }
 
+    @Override
+    public void onDetach() {
+        controller = null;
+        super.onDetach();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_pager, container, false);
         ButterKnife.inject(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         adapter = new SchedulePageAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(getArguments().getInt(ARG_DAY));
         tabs.setupWithViewPager(viewPager);
-        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        ButterKnife.reset(this);
+        super.onDestroyView();
     }
 
     @OnClick(R.id.fab)

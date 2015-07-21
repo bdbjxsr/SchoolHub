@@ -23,7 +23,7 @@ import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.SchedulePageView;
 import id.hub.school.schoolhub.view.adapter.ScheduleAdapter;
 
-public class SchedulePageFragment extends Fragment implements SchedulePageView {
+public class SchedulePageFragment extends BaseFragment implements SchedulePageView {
     public static final String ARG_PAGE = "arg_page";
 
     @InjectView(R.id.list_item) ListView listView;
@@ -47,6 +47,12 @@ public class SchedulePageFragment extends Fragment implements SchedulePageView {
         presenter.setView(this);
     }
 
+    @Override
+    public void onDetach() {
+        presenter.setView(null);
+        super.onDetach();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +60,12 @@ public class SchedulePageFragment extends Fragment implements SchedulePageView {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.inject(this, view);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        ButterKnife.reset(this);
+        super.onDestroyView();
     }
 
     @Override
@@ -67,7 +79,7 @@ public class SchedulePageFragment extends Fragment implements SchedulePageView {
     @Override
     public void showListSchedule(ScheduleAdapter adapter) {
         hideProgress();
-        listView.setAdapter(adapter);
+        if (listView != null) listView.setAdapter(adapter);
     }
 
     @Override

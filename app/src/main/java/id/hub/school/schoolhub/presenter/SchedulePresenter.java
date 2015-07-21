@@ -40,6 +40,9 @@ public class SchedulePresenter implements BasePresenter {
                         return query;
                     }
                 };
-        view.showListSchedule(new ScheduleAdapter(view.getContext(), factory));
+
+        if (view != null) {
+            view.showListSchedule(new ScheduleAdapter(view.getContext(), factory));
+        }
     }
 }

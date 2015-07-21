@@ -72,6 +72,14 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     }
 
+    @Override
+    public void onDetach() {
+        controller = null;
+        adapter = null;
+        layoutManager = null;
+        super.onDetach();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,6 +127,12 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        ButterKnife.reset(this);
+        super.onDestroyView();
+    }
+
     @OnClick(R.id.fab)
     void onFABClick() {
         tracker.send(new HitBuilders.EventBuilder()
@@ -131,10 +145,14 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
 
 
     @Override
-    public void showLoading() { loadingView.setVisibility(View.VISIBLE); }
+    public void showLoading() {
+        if (loadingView != null) { loadingView.setVisibility(View.VISIBLE); }
+    }
 
     @Override
-    public void hideLoading() { loadingView.setVisibility(View.GONE); }
+    public void hideLoading() {
+        if (loadingView != null) { loadingView.setVisibility(View.GONE); }
+    }
 
     @Override
     public void showEmptyView() {
