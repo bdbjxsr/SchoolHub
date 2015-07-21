@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +57,8 @@ public final class MainActivity extends BaseActivity implements MainView,
 
     private ActionBarDrawerToggle drawerToggle;
     private int currentSelectedPosition;
+    private DiscussionFragment discussionFragment;
+    private ScheduleFragment scheduleFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public final class MainActivity extends BaseActivity implements MainView,
 
         setupToolbar(toolbar);
         setupNavigationDrawer();
+
+        initContentFragment();
 
         if (savedInstanceState != null) {
             currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_NAV_ITEM);
@@ -80,6 +83,22 @@ public final class MainActivity extends BaseActivity implements MainView,
         } else {
             replaceWithDiscussionFragment();
         }
+    }
+
+    private void initContentFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.content, initDiscussionFragment()).hide(discussionFragment)
+                .add(R.id.content, initScheduleFragment()).hide(scheduleFragment).commit();
+    }
+
+    private Fragment initDiscussionFragment() {
+        discussionFragment = new DiscussionFragment();
+        return discussionFragment;
+    }
+
+    private Fragment initScheduleFragment() {
+        scheduleFragment = ScheduleFragment.newInstance(TimeUtil.getCurrentDayOnWeek());
+        return scheduleFragment;
     }
 
     @Override
@@ -114,6 +133,7 @@ public final class MainActivity extends BaseActivity implements MainView,
                         signOutApplication();
                         break;
                 }
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -192,7 +212,11 @@ public final class MainActivity extends BaseActivity implements MainView,
             getSupportActionBar().setTitle(R.string.title_schedule_screen);
         }
 
-        replaceFragment(ScheduleFragment.newInstance(TimeUtil.getCurrentDayOnWeek()));
+        getSupportFragmentManager().beginTransaction()
+                .hide(discussionFragment).commit();
+
+        getSupportFragmentManager().beginTransaction()
+                .show(scheduleFragment).commit();
     }
 
     @Override
@@ -204,7 +228,11 @@ public final class MainActivity extends BaseActivity implements MainView,
             getSupportActionBar().setTitle(R.string.title_discussion_screen);
         }
 
-        replaceFragment(new DiscussionFragment());
+        getSupportFragmentManager().beginTransaction()
+                .hide(scheduleFragment).commit();
+
+        getSupportFragmentManager().beginTransaction()
+                .show(discussionFragment).commit();
     }
 
     @Override
