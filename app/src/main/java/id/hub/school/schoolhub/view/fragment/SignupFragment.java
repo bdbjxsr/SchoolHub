@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -31,10 +34,10 @@ import id.hub.school.schoolhub.view.adapter.AutoCompleteDelegate;
 public class SignupFragment extends BaseFragment implements SignupView {
 
     public static final String LOADING_TAG = "loadingTag";
-    @InjectView(R.id.nis) EditText nisEditText;
-    @InjectView(R.id.fullname) EditText fullnameEditText;
-    @InjectView(R.id.password) EditText passwordEditText;
-    @InjectView(R.id.autocompleteSchoolName) AutoCompleteTextView schoolNameEditText;
+    @InjectView(R.id.nis_text_input_layout) TextInputLayout nisTextInputLayout;
+    @InjectView(R.id.fullname_text_input_layout) TextInputLayout fullnameTextInputLayout;
+    @InjectView(R.id.password_text_input_layout) TextInputLayout passwordTextInputLayout;
+    @InjectView(R.id.auto_text_input_layout) TextInputLayout autoTextInputLayout;
     @InjectView(R.id.show_password) CheckBox showPasswordCheckbox;
 
     private Controller controller;
@@ -83,41 +86,109 @@ public class SignupFragment extends BaseFragment implements SignupView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView)
+                autoTextInputLayout.getEditText();
+        autoCompleteDelegate.setOnItemClick(autoCompleteTextView);
 
-        autoCompleteDelegate.onRestoreState(savedInstanceState, schoolNameEditText);
-        autoCompleteDelegate.setOnItemClick(schoolNameEditText);
+        nisTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s)) {
+                    hideStudentNumberError();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        fullnameTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s)) {
+                    hideFullNameError();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        passwordTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s)) {
+                    hidePasswordError();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView)
+                autoTextInputLayout.getEditText();
+        autoCompleteDelegate.onRestoreState(savedInstanceState, autoCompleteTextView);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         autoCompleteDelegate.onSaveInstanceState(outState);
     }
 
     @Override
     public void showSchoolNameError(String message) {
-        schoolNameEditText.requestFocus();
-        schoolNameEditText.setError(message);
+        autoTextInputLayout.setErrorEnabled(true);
+        autoTextInputLayout.setError(message);
+        autoTextInputLayout.getEditText().requestFocus();
     }
 
     @Override
     public void showStudentNumberError(String message) {
-        nisEditText.requestFocus();
-        nisEditText.setError(message);
+        nisTextInputLayout.setErrorEnabled(true);
+        nisTextInputLayout.setError(message);
+        nisTextInputLayout.getEditText().requestFocus();
     }
 
     @Override
     public void showFullnameError(String message) {
-        fullnameEditText.requestFocus();
-        fullnameEditText.setError(message);
+        fullnameTextInputLayout.setErrorEnabled(true);
+        fullnameTextInputLayout.setError(message);
+        fullnameTextInputLayout.getEditText().requestFocus();
     }
 
     @Override
     public void showPasswordError(String message) {
-        passwordEditText.requestFocus();
-        passwordEditText.setError(message);
+        passwordTextInputLayout.setErrorEnabled(true);
+        passwordTextInputLayout.setError(message);
+        passwordTextInputLayout.getEditText().requestFocus();
     }
+
+    @Override
+    public void hideSchoolNameError() { autoTextInputLayout.setErrorEnabled(false); }
+
+    @Override
+    public void hideStudentNumberError() { nisTextInputLayout.setErrorEnabled(false); }
+
+    @Override
+    public void hideFullNameError() { fullnameTextInputLayout.setErrorEnabled(false); }
+
+    @Override
+    public void hidePasswordError() { passwordTextInputLayout.setErrorEnabled(false); }
 
     @OnClick(R.id.signup_button)
     void onSignUpButtonClick() {
@@ -131,6 +202,7 @@ public class SignupFragment extends BaseFragment implements SignupView {
 
     @Override
     public void toogleShowHidePassword(boolean checked) {
+        EditText passwordEditText = passwordTextInputLayout.getEditText();
         if (checked) {
             showPasswordCheckbox.setText(getActivity().getString(R.string.label_hide_button));
             passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -153,39 +225,35 @@ public class SignupFragment extends BaseFragment implements SignupView {
     }
 
     @Override
-    public String getSchoolName() { return schoolNameEditText.getText().toString(); }
+    public String getSchoolName() {
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView)
+                autoTextInputLayout.getEditText();
+        return autoCompleteTextView.getText().toString();
+    }
 
     @Override
-    public String getStudentNumber() { return nisEditText.getText().toString(); }
+    public String getStudentNumber() { return nisTextInputLayout.getEditText().getText().toString(); }
 
     @Override
-    public String getFullName() { return fullnameEditText.getText().toString(); }
+    public String getFullName() { return fullnameTextInputLayout.getEditText().getText().toString(); }
 
     @Override
-    public String getPassword() { return passwordEditText.getText().toString(); }
+    public String getPassword() { return passwordTextInputLayout.getEditText().getText().toString(); }
 
     @Override
     public void navigateToMainActivity() { controller.navigateToMainActivity(); }
 
     @Override
-    public void showProgress() {
-
-    }
+    public void showProgress() {}
 
     @Override
-    public void hideProgress() {
-
-    }
+    public void hideProgress() {}
 
     @Override
-    public void showRetry() {
-
-    }
+    public void showRetry() {}
 
     @Override
-    public void hideRetry() {
-
-    }
+    public void hideRetry() {}
 
     @Override
     public void showError(String message) {

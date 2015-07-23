@@ -9,6 +9,14 @@ public interface SignupView extends LoadDataView {
 
     void showPasswordError(String message);
 
+    void hideSchoolNameError();
+
+    void hideStudentNumberError();
+
+    void hideFullNameError();
+
+    void hidePasswordError();
+
     void toogleShowHidePassword(boolean checked);
 
     void showLoadingView();

@@ -33,9 +33,9 @@ public class LoginPresenter implements BasePresenter, LoginFinishListener {
         loginView.hidePasswordError();
 
         if (TextUtils.isEmpty(loginView.getStudentNumber())) {
-            loginView.showStudentNumberError("Student number cannot be empty");
+            loginView.showStudentNumberError("Student number cannot be empty.");
         } else if (TextUtils.isEmpty(loginView.getPassword())) {
-            loginView.showPasswordError("Password cannot be empty");
+            loginView.showPasswordError("Password cannot be empty.");
         } else {
             loginView.showLoadingView();
             loginInteractor.validateCredentials(loginView.getStudentNumber(),

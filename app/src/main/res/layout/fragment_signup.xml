@@ -1,95 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_primary_light"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp">
+    android:layout_height="match_parent">
 
-    <AutoCompleteTextView
-        android:id="@+id/autocompleteSchoolName"
-        style="@style/Base.SchoolHub.EditText"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_background"
-        android:hint="@string/hint_school_name_edittext"
-        android:inputType="textCapWords"
-        android:singleLine="true"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.v4.widget.Space
-        android:layout_width="0dp"
-        android:layout_height="24dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <EditText
-        android:id="@+id/nis"
-        style="@style/Base.SchoolHub.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_background"
-        android:hint="@string/hint_nis_edittext"
-        android:inputType="number"
-        android:singleLine="true" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/auto_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <android.support.v4.widget.Space
-        android:layout_width="0dp"
-        android:layout_height="20dp" />
+                <AutoCompleteTextView
+                    android:id="@+id/autocompleteSchoolName"
+                    style="@style/Base.SchoolHub.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_school_name_edittext"
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/fullname"
-        style="@style/Base.SchoolHub.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_background"
-        android:hint="@string/hint_fullname_edittext"
-        android:inputType="textCapWords"
-        android:singleLine="true" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/nis_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <android.support.v4.widget.Space
-        android:layout_width="0dp"
-        android:layout_height="20dp" />
+                <EditText
+                    android:id="@+id/nis"
+                    style="@style/Base.SchoolHub.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_nis_edittext"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/fullname_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/fullname"
+                    style="@style/Base.SchoolHub.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_fullname_edittext"
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/password_text_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/password"
+                        style="@style/Base.SchoolHub.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_password_edittext"
+                        android:inputType="textPassword"
+                        android:paddingRight="80dp"
+                        android:singleLine="true"
+                        tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <CheckBox
+                    android:id="@+id/show_password"
+                    android:layout_width="80dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/label_show_button"
+                    tools:ignore="RtlHardcoded" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
-        <EditText
-            android:id="@+id/password"
-            style="@style/Base.SchoolHub.EditText"
+        <Button
+            android:id="@+id/signup_button"
+            style="@style/Base.SchoolHub.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_background"
-            android:hint="@string/hint_password_edittext"
-            android:inputType="textPassword"
-            android:paddingRight="80dp"
-            android:singleLine="true"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
-
-        <CheckBox
-            android:id="@+id/show_password"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
-            android:layout_gravity="right"
-            android:background="?attr/selectableItemBackground"
-            android:button="@null"
+            android:background="@drawable/rect_button_signup"
             android:gravity="center"
-            android:text="@string/label_show_button"
-            tools:ignore="RtlHardcoded" />
+            android:text="@string/label_signup_button"
+            android:textColor="@android:color/white" />
     </FrameLayout>
 
-    <android.support.v4.widget.Space
-        android:layout_width="0dp"
-        android:layout_height="24dp" />
-
-    <Button
-        android:id="@+id/signup_button"
-        style="@style/Base.SchoolHub.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_signup"
-        android:text="@string/label_signup_button"
-        android:textColor="@android:color/white" />
-
-</LinearLayout>
+</FrameLayout>

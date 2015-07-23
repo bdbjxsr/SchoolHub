@@ -1,5 +1,6 @@
 package id.hub.school.schoolhub.presenter;
 
+import android.text.TextUtils;
 import android.widget.CompoundButton;
 
 import javax.inject.Inject;
@@ -37,9 +38,28 @@ public class SignUpPresenter implements BasePresenter, SignUpFinishListener {
     }
 
     public void onSignUpClick() {
-        signupView.showLoadingView();
-        signUpInteractor.registerNewStudent(signupView.getStudentNumber(),
-                signupView.getSchoolName(), signupView.getFullName(), signupView.getPassword(), this);
+        signupView.hideSchoolNameError();
+        signupView.hideStudentNumberError();
+        signupView.hideFullNameError();
+        signupView.hidePasswordError();
+
+        if (TextUtils.isEmpty(signupView.getSchoolName())) {
+            signupView.showSchoolNameError("School name cannot be empty.");
+        } else if (TextUtils.isEmpty(signupView.getStudentNumber())) {
+            signupView.showStudentNumberError("Student number cannot be empty.");
+        } else if (TextUtils.isEmpty(signupView.getFullName())) {
+            signupView.showFullnameError("Fullname cannot be empty.");
+        } else if (TextUtils.isEmpty(signupView.getPassword())) {
+            signupView.showPasswordError("Password cannot be empty.");
+        } else {
+            signupView.showLoadingView();
+            signUpInteractor.registerNewStudent(
+                    signupView.getStudentNumber(),
+                    signupView.getSchoolName(),
+                    signupView.getFullName(),
+                    signupView.getPassword(),
+                    this);
+        }
     }
 
     @Override
