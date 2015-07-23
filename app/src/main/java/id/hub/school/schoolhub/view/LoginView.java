@@ -5,6 +5,10 @@ public interface LoginView extends LoadDataView {
 
     void showPasswordError(String message);
 
+    void hideStudentNumberError();
+
+    void hidePasswordError();
+
     void showLoadingView();
 
     void hideLoadingView();

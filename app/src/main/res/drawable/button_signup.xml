@@ -3,7 +3,7 @@
     <item android:state_pressed="true">
         <layer-list>
             <item android:drawable="@drawable/button_signup_normal"/>
-            <item android:drawable="@drawable/button_mask_light"/>
+            <item android:drawable="@drawable/rounded_button_mask_light"/>
         </layer-list>
     </item>
     <item android:drawable="@drawable/button_signup_normal"/>

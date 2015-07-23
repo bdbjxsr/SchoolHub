@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +27,8 @@ import id.hub.school.schoolhub.view.LoginView;
 public final class LoginFragment extends BaseFragment implements LoginView {
 
     private static final String LOADING_TAG = "loading_tag";
-    @InjectView(R.id.nis) EditText nisEditText;
-    @InjectView(R.id.password) EditText passwordEditText;
+    @InjectView(R.id.nis_text_input_layout) TextInputLayout nisTextInputLayout;
+    @InjectView(R.id.password_text_input_layout) TextInputLayout passwordTextInputLayout;
 
     @Inject LoginPresenter loginPresenter;
 
@@ -33,10 +37,12 @@ public final class LoginFragment extends BaseFragment implements LoginView {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        SchoolHubApp.get(activity).component().inject(this);
         if (!(activity instanceof Controller)) {
             throw new ClassCastException("Activity must implement " + Controller.class);
         }
         controller = (Controller) activity;
+        loginPresenter.setLoginView(this);
     }
 
     @Nullable
@@ -48,34 +54,69 @@ public final class LoginFragment extends BaseFragment implements LoginView {
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        nisTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s)) {
+                    hideStudentNumberError();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        passwordTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s)) {
+                    hidePasswordError();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
     @OnClick(R.id.login_button)
     void onLoginButtonClick() {
         loginPresenter.onLoginButtonClick();
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        SchoolHubApp.get(getActivity()).component().inject(this);
-        loginPresenter.setLoginView(this);
-    }
-
-    @Override
     public void showStudentNumberError(String message) {
-        nisEditText.requestFocus();
-        nisEditText.setError(message);
+        nisTextInputLayout.setErrorEnabled(true);
+        nisTextInputLayout.setError(message);
+        nisTextInputLayout.getEditText().requestFocus();
     }
 
     @Override
     public void showPasswordError(String message) {
-        passwordEditText.requestFocus();
-        passwordEditText.setError(message);
+        passwordTextInputLayout.setErrorEnabled(true);
+        passwordTextInputLayout.setError(message);
+        passwordTextInputLayout.getEditText().requestFocus();
     }
 
     @Override
+    public void hideStudentNumberError() { nisTextInputLayout.setErrorEnabled(false); }
+
+    @Override
+    public void hidePasswordError() { passwordTextInputLayout.setErrorEnabled(false); }
+
+    @Override
     public void showLoadingView() {
-        ProgressDialogFragment.show(getString(R.string.message_loading),
-                getFragmentManager(), LOADING_TAG);
+        ProgressDialogFragment.show(getString(R.string.message_loading), getFragmentManager(), LOADING_TAG);
     }
 
     @Override
@@ -90,33 +131,25 @@ public final class LoginFragment extends BaseFragment implements LoginView {
 
     @Override
     public String getStudentNumber() {
-        return nisEditText.getText().toString();
+        return nisTextInputLayout.getEditText().getText().toString();
     }
 
     @Override
     public String getPassword() {
-        return passwordEditText.getText().toString();
+        return passwordTextInputLayout.getEditText().getText().toString();
     }
 
     @Override
-    public void showProgress() {
-
-    }
+    public void showProgress() {}
 
     @Override
-    public void hideProgress() {
-
-    }
+    public void hideProgress() {}
 
     @Override
-    public void showRetry() {
-
-    }
+    public void showRetry() {}
 
     @Override
-    public void hideRetry() {
-
-    }
+    public void hideRetry() {}
 
     @Override
     public void showError(String message) {
@@ -124,9 +157,7 @@ public final class LoginFragment extends BaseFragment implements LoginView {
     }
 
     @Override
-    public Context getContext() {
-        return null;
-    }
+    public Context getContext() { return getActivity(); }
 
     public interface Controller {
         void navigateToMainActivity();

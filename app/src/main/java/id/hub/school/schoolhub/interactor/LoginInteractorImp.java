@@ -19,21 +19,15 @@ public class LoginInteractorImp implements LoginInteractor {
     @Override
     public void validateCredentials(String username, String password,
                                     final LoginFinishListener listener) {
-        if (TextUtils.isEmpty(username)){
-            listener.onStudentNumberError();
-        } else if (TextUtils.isEmpty(password)) {
-            listener.onPasswordError();
-        } else {
-            ParseUser.logInInBackground(username, password, new LogInCallback() {
-                @Override
-                public void done(ParseUser parseUser, ParseException e) {
-                    if (e == null) {
-                        listener.onSuccessLogin();
-                    } else {
-                        listener.onFailedLogin(e);
-                    }
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                if (e == null) {
+                    listener.onSuccessLogin();
+                } else {
+                    listener.onFailedLogin(e);
                 }
-            });
-        }
+            }
+        });
     }
 }

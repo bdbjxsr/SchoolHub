@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <layer-list>
-            <item android:drawable="@drawable/button_login_normal"/>
-            <item android:drawable="@drawable/button_mask_light"/>
+            <item android:drawable="@drawable/rect_login_normal"/>
+            <item android:drawable="@drawable/rect_button_mask_light"/>
         </layer-list>
     </item>
-    <item android:drawable="@drawable/button_login_normal"/>
+    <item android:drawable="@drawable/rect_login_normal"/>
 </selector>
