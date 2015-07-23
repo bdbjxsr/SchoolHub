@@ -2,8 +2,6 @@ package id.hub.school.schoolhub;
 
 import android.app.Application;
 
-import com.google.gson.Gson;
-
 import javax.inject.Singleton;
 
 import dagger.Module;

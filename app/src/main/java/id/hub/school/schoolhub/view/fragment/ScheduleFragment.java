@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.presenter.SchedulePresenter;
 import id.hub.school.schoolhub.view.adapter.SchedulePageAdapter;
 import timber.log.Timber;
 

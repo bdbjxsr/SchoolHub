@@ -70,8 +70,6 @@ public final class MainActivity extends BaseActivity implements MainView,
         setupToolbar(toolbar);
         setupNavigationDrawer();
 
-        initContentFragment();
-
         if (savedInstanceState != null) {
             currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_NAV_ITEM);
         } else {
@@ -86,9 +84,8 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     private void initContentFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.content, initDiscussionFragment()).hide(discussionFragment)
-                .add(R.id.content, initScheduleFragment()).hide(scheduleFragment).commit();
+        initDiscussionFragment();
+        initScheduleFragment();
     }
 
     private Fragment initDiscussionFragment() {
@@ -212,11 +209,8 @@ public final class MainActivity extends BaseActivity implements MainView,
             getSupportActionBar().setTitle(R.string.title_schedule_screen);
         }
 
-        getSupportFragmentManager().beginTransaction()
-                .hide(discussionFragment).commit();
-
-        getSupportFragmentManager().beginTransaction()
-                .show(scheduleFragment).commit();
+        initScheduleFragment();
+        replaceFragment(scheduleFragment);
     }
 
     @Override
@@ -228,11 +222,8 @@ public final class MainActivity extends BaseActivity implements MainView,
             getSupportActionBar().setTitle(R.string.title_discussion_screen);
         }
 
-        getSupportFragmentManager().beginTransaction()
-                .hide(scheduleFragment).commit();
-
-        getSupportFragmentManager().beginTransaction()
-                .show(discussionFragment).commit();
+        initDiscussionFragment();
+        replaceFragment(discussionFragment);
     }
 
     @Override

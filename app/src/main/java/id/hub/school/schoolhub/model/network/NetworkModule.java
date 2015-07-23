@@ -15,10 +15,7 @@ import id.hub.school.schoolhub.AnalyticsProperty;
 public class NetworkModule {
 
     @Provides
-    @Singleton
-    AnalyticsProperty provideAnalyticsProperty(){
-        return AnalyticsProperty.DEVELOPMENT;
-    }
+    AnalyticsProperty provideAnalyticsProperty(){ return AnalyticsProperty.PRODUCTION; }
 
     @Provides
     @Singleton

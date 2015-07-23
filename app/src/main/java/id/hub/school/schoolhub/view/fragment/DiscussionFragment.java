@@ -63,6 +63,8 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         setRetainInstance(true);
     }
 
+    public DiscussionPresenter getPresenter() { return presenter; }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
