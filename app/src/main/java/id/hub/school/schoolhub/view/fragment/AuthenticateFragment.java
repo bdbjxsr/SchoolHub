@@ -3,13 +3,17 @@ package id.hub.school.schoolhub.view.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.viewpagerindicator.CirclePageIndicator;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
@@ -20,15 +24,22 @@ public class AuthenticateFragment extends BaseFragment implements AuthenticateVi
 
     @Inject AuthenticatePresenter authenticatePresenter;
 
+    @InjectView(R.id.view_pager) ViewPager pager;
+
+    @InjectView(R.id.indicator) CirclePageIndicator indicator;
+
     private Controller controller;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        SchoolHubApp.get(activity).component().inject(this);
+
         if (!(activity instanceof Controller)) {
             throw new ClassCastException("Activity must implement " + Controller.class);
         }
         controller = (Controller) activity;
+        authenticatePresenter.setAuthenticateView(this);
     }
 
     @Nullable
@@ -41,10 +52,16 @@ public class AuthenticateFragment extends BaseFragment implements AuthenticateVi
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        SchoolHubApp.get(getActivity()).component().inject(this);
-        authenticatePresenter.setAuthenticateView(this);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        AuthenticatePageAdapter adapter = new AuthenticatePageAdapter(getChildFragmentManager());
+
+        pager.setAdapter(adapter);
+
+        indicator.setViewPager(pager);
+        indicator.setRadius(6);
+
     }
 
     @OnClick(R.id.login_button)
