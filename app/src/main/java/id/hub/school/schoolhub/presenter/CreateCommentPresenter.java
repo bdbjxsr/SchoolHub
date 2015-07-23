@@ -30,9 +30,11 @@ public class CreateCommentPresenter implements BasePresenter, CreateCommentListe
 
     public void onSubmitClick() {
         view.hideQuestionError();
+
         if (TextUtils.isEmpty(view.getAnswerText())) {
             onAnswerError("Answer cannot be empty.");
         } else {
+            view.showProgress();
             interactorImp.validateCreateComment(view.getObjectId(), view.getAnswerText(), this);
         }
     }

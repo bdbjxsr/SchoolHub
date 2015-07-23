@@ -1,5 +1,7 @@
 package id.hub.school.schoolhub.presenter;
 
+import android.text.TextUtils;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -11,28 +13,42 @@ public class DiscussionFormPresenter implements BasePresenter, DiscussionFormCre
 
     private DiscussionFormView view;
 
-    @Inject DiscussionFormInteractorImp interactorImp;
+    @Inject
+    DiscussionFormInteractorImp interactorImp;
 
     @Inject
-    public DiscussionFormPresenter() {}
+    public DiscussionFormPresenter() {
+    }
 
-    public void setView(DiscussionFormView view) { this.view = view; }
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void pause() {}
+    public void setView(DiscussionFormView view) {
+        this.view = view;
+    }
 
     @Override
-    public void destroy() {}
+    public void resume() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void destroy() {
+    }
 
     public void onSubmitClick() {
         view.hideJudulError();
         view.hideQuestionError();
-        view.showProgress();
-        interactorImp.validateCreateDiscussionForm(view.getKategori(), view.getJudul(),
-                view.getQuestion(), this);
+
+        if (TextUtils.isEmpty(view.getJudul())) {
+            view.showJudulError("Title cannot be empty");
+        } else if (TextUtils.isEmpty(view.getQuestion())) {
+            view.showQuestionError("Question cannot be empty");
+        } else {
+            view.showProgress();
+            interactorImp.validateCreateDiscussionForm(view.getKategori(), view.getJudul(),
+                    view.getQuestion(), this);
+        }
     }
 
     @Override
@@ -48,8 +64,12 @@ public class DiscussionFormPresenter implements BasePresenter, DiscussionFormCre
     }
 
     @Override
-    public void onTitleError(String message) { view.showJudulError(message); }
+    public void onTitleError(String message) {
+        view.showJudulError(message);
+    }
 
     @Override
-    public void onQuestionError(String message) { view.showQuestionError(message); }
+    public void onQuestionError(String message) {
+        view.showQuestionError(message);
+    }
 }

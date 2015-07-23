@@ -30,6 +30,8 @@ public class CreateSchedulePresenter implements BasePresenter, CreateScheduleLis
     public void destroy() {}
 
     public void onSubmitClick() {
+        view.hideTitleError();
+
         if (TextUtils.isEmpty(view.getTitle())) {
             view.showTitleError("Title cannot be empty");
         } else {

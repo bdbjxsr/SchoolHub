@@ -74,12 +74,14 @@ public class CreateDiscussionFragment extends BaseFragment implements Discussion
     public void showJudulError(String message) {
         titleTextInputLayout.setError(message);
         titleTextInputLayout.setErrorEnabled(true);
+        titleTextInputLayout.getEditText().requestFocus();
     }
 
     @Override
     public void showQuestionError(String message) {
         questionTextInputLayout.setError(message);
         questionTextInputLayout.setErrorEnabled(true);
+        questionTextInputLayout.getEditText().requestFocus();
     }
 
     @Override

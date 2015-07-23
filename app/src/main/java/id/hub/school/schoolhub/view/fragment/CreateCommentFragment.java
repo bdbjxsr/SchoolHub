@@ -90,15 +90,14 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
                 .setAction("click")
                 .setLabel("Submit Answer")
                 .build());
-        showProgress();
         presenter.onSubmitClick();
     }
 
     @Override
     public void showQuestionError(String message) {
-        hideProgress();
         answerTextInputLayout.setError(message);
         answerTextInputLayout.setErrorEnabled(true);
+        answerTextInputLayout.getEditText().requestFocus();
     }
 
     @Override

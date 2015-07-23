@@ -26,29 +26,26 @@ public class CreateCommentInteractorImp implements CreateCommentInteractor {
     @Override
     public void validateCreateComment(final String objectId, final String answer,
                                       final CreateCommentListener listener) {
-        if (TextUtils.isEmpty(answer)) {
-            listener.onAnswerError("Answer cannot be empty");
-        } else {
-            final RuangDiskusiObject ruangDiskusiObject =
-                    ParseObject.createWithoutData(RuangDiskusiObject.class, objectId);
 
-            OpenDiscussionObject object = new OpenDiscussionObject();
-            object.setAnswer(answer);
-            object.setRuangDiskusi(ruangDiskusiObject);
-            object.setUser(ParseUser.getCurrentUser());
-            object.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        listener.onSuccessCreateComment();
+        final RuangDiskusiObject ruangDiskusiObject =
+                ParseObject.createWithoutData(RuangDiskusiObject.class, objectId);
 
-                        ruangDiskusiObject.setCommentCount(1);
-                        ruangDiskusiObject.saveInBackground();
-                    } else {
-                        listener.onFailedCreateComment(e.getMessage());
-                    }
+        OpenDiscussionObject object = new OpenDiscussionObject();
+        object.setAnswer(answer);
+        object.setRuangDiskusi(ruangDiskusiObject);
+        object.setUser(ParseUser.getCurrentUser());
+        object.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    listener.onSuccessCreateComment();
+
+                    ruangDiskusiObject.setCommentCount(1);
+                    ruangDiskusiObject.saveInBackground();
+                } else {
+                    listener.onFailedCreateComment(e.getMessage());
                 }
-            });
-        }
+            }
+        });
     }
 }

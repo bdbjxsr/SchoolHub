@@ -31,25 +31,21 @@ public class CreateScheduleInteractorImp implements CreateScheduleInteractor {
     @Override
     public void validateCreateSchedule(String title, final String day, final String time,
                                        final CreateScheduleListener listener) {
-        if (TextUtils.isEmpty(title)) {
-            listener.onTitleError("Title cannot be empty");
-        } else {
-            ScheduleObject object = new ScheduleObject();
-            object.setTitle(title);
-            object.setDay(day);
-            object.setTime(time);
-            object.setUser(ParseUser.getCurrentUser());
-            object.setNotification(true);
-            object.pinInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        listener.onCreateScheduleSuccess();
-                    } else {
-                        listener.onCreateScheduleFailed(e.getMessage());
-                    }
+        ScheduleObject object = new ScheduleObject();
+        object.setTitle(title);
+        object.setDay(day);
+        object.setTime(time);
+        object.setUser(ParseUser.getCurrentUser());
+        object.setNotification(true);
+        object.pinInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    listener.onCreateScheduleSuccess();
+                } else {
+                    listener.onCreateScheduleFailed(e.getMessage());
                 }
-            });
-        }
+            }
+        });
     }
 }
