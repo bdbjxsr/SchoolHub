@@ -61,32 +61,24 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:design:22.2.0'
-
     compile 'com.google.android.gms:play-services:7.5.0'
-
     compile 'com.jakewharton:butterknife:6.1.0'
-
     compile 'com.google.dagger:dagger:2.0'
     apt 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
     compile 'com.jakewharton.timber:timber:3.0.2'
     debugCompile 'com.squareup.retrofit:retrofit-mock:1.4.1'
-
     compile 'de.hdodenhof:circleimageview:1.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.0.+'
-
     compile 'com.getbase:floatingactionbutton:1.9.1'
-
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
-
     compile 'com.getbase:floatingactionbutton:1.10.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.4.0@aar') {
         transitive = true;
     }
-
+    compile project(':library-2.4.1')
 }
