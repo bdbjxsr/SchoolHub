@@ -6,24 +6,37 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:padding="16dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tipe"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:textColor="@color/secondary_text"
-        android:textSize="12sp"
-        tools:text="Fisika" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/holo_orange_dark"
+            tools:text="Fisika" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:textColor="@color/secondary_text"
+            tools:text="2 minutes ago" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/judul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="sans-serif"
         android:textSize="22sp"
         android:textStyle="bold"
         tools:text="The quick, brown fox jumps over a lazy dog jumps.." />
@@ -34,17 +47,17 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:textSize="12sp"
             android:layout_gravity="center_vertical"
+            android:textColor="@color/secondary_text"
+            android:textSize="16sp"
             tools:text="Fajar Purwo Nugroho" />
 
         <TextView
@@ -54,8 +67,9 @@
             android:layout_gravity="right|center_vertical"
             android:drawableLeft="@drawable/ic_message_black_24dp"
             android:drawablePadding="8dp"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
-            android:text="100"/>
+            tools:text="100" />
 
     </FrameLayout>
 

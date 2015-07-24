@@ -1,5 +1,6 @@
 package id.hub.school.schoolhub.view.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
+import id.hub.school.schoolhub.utils.TimeUtil;
 
 public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -24,7 +26,11 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<RuangDiskusiObject> list;
     private ClickListener clickListener;
 
-    public DiscussionRoomAdapter() {}
+    private Context context;
+
+    public DiscussionRoomAdapter(Context context) {
+        this.context = context;
+    }
 
     public void setList(List<RuangDiskusiObject> list) { this.list = list; }
 
@@ -66,6 +72,8 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             viewHolder.tipeTextView.setText(object.getKategori());
             viewHolder.judulTextView.setText(object.getJudul());
             viewHolder.commentCountTextView.setText(String.valueOf(object.getCommentCount()));
+            viewHolder.timeTextView
+                    .setText(TimeUtil.getTimeAgo(object.getCreatedDate().getTime(), context));
         } else {
             ProgressBarViewHolder progressHolder = (ProgressBarViewHolder) holder;
             progressHolder.progressBar.setIndeterminate(true);
@@ -90,6 +98,7 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView judulTextView;
         TextView nameTextView;
         TextView commentCountTextView;
+        TextView timeTextView;
 
         public DiscussionRoomViewHolder(View itemView) {
             super(itemView);
@@ -100,6 +109,7 @@ public class DiscussionRoomAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             judulTextView = ButterKnife.findById(itemView, R.id.judul);
             nameTextView = ButterKnife.findById(itemView, R.id.name);
             commentCountTextView = ButterKnife.findById(itemView, R.id.comment_count);
+            timeTextView = ButterKnife.findById(itemView, R.id.time);
         }
 
         @Override

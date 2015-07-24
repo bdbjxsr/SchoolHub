@@ -74,7 +74,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
         }
         controller = (Controller) activity;
         presenter.setDiscussionView(this);
-        adapter = new DiscussionRoomAdapter();
+        adapter = new DiscussionRoomAdapter(activity);
         layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     }

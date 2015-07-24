@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,6 @@ import id.hub.school.schoolhub.presenter.OpenDiscussionPresenter;
 import id.hub.school.schoolhub.view.OpenDiscussionView;
 import id.hub.school.schoolhub.view.activity.OpenDiscussionActivity;
 import id.hub.school.schoolhub.view.adapter.CommentAdapter;
-import id.hub.school.schoolhub.view.widget.LoadingView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -43,7 +43,7 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
 
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.question_header) TextView questionHeaderTextView;
-    @InjectView(R.id.loading_view) LoadingView loadingView;
+    @InjectView(R.id.loading_view) ProgressBar loadingView;
     @InjectView(R.id.recyclerview) RecyclerView recyclerView;
     @InjectView(R.id.empty) TextView empty;
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;

@@ -8,6 +8,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("RuangDiskusi")
 public class RuangDiskusiObject extends ParseObject implements Parcelable {
 
@@ -19,6 +21,20 @@ public class RuangDiskusiObject extends ParseObject implements Parcelable {
     public static final String KEY_COMMENT_COUNT = "commentCount";
 
     public RuangDiskusiObject() {}
+
+    protected RuangDiskusiObject(Parcel in) {}
+
+    public static final Creator<RuangDiskusiObject> CREATOR = new Creator<RuangDiskusiObject>() {
+        @Override
+        public RuangDiskusiObject createFromParcel(Parcel in) {
+            return new RuangDiskusiObject(in);
+        }
+
+        @Override
+        public RuangDiskusiObject[] newArray(int size) {
+            return new RuangDiskusiObject[size];
+        }
+    };
 
     public void setUser(ParseUser user) { put(KEY_USER, user); }
 
@@ -44,6 +60,8 @@ public class RuangDiskusiObject extends ParseObject implements Parcelable {
 
     public int getCommentCount() { return getInt(KEY_COMMENT_COUNT); }
 
+    public Date getCreatedDate() { return getCreatedAt(); }
+
     @Override
     public int describeContents() { return 0; }
 
@@ -55,5 +73,6 @@ public class RuangDiskusiObject extends ParseObject implements Parcelable {
         dest.writeInt(getCommentCount());
         dest.writeValue(getUser());
         dest.writeValue(getImage());
+        dest.writeValue(getCreatedDate());
     }
 }
