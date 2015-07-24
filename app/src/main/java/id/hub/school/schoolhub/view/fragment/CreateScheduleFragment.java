@@ -22,6 +22,7 @@ import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.presenter.CreateSchedulePresenter;
 import id.hub.school.schoolhub.utils.ConvertUtil;
+import id.hub.school.schoolhub.utils.TimeUtil;
 import id.hub.school.schoolhub.view.CreateScheduleView;
 import id.hub.school.schoolhub.view.activity.CreateScheduleActivity;
 import id.hub.school.schoolhub.view.widget.TimePickerView;
@@ -31,6 +32,7 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     public static final String TAG_TIME_PICKER = "timePicker";
     public static final String TAG_LOADING = "loading";
     public static final String ARG_POSITION = "arg_position";
+    public static final String ARG_OBJECT_ID = "arg_object_id";
 
     @InjectView(R.id.action_bar) Toolbar toolbar;
     @InjectView(R.id.time_picker_view) TimePickerView timePickerView;
@@ -40,10 +42,15 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     @Inject CreateSchedulePresenter presenter;
 
     private Controller controller;
+    private boolean edited = false;
 
-    public static CreateScheduleFragment newInstance(int position) {
+    public static CreateScheduleFragment newInstance(Bundle bundle) {
         Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
+        args.putInt(ARG_POSITION, bundle.getInt(CreateScheduleActivity.EXTRA_POSITION));
+
+        if (bundle.containsKey(CreateScheduleActivity.EXTRA_OBJECT_ID)) {
+            args.putString(ARG_OBJECT_ID, bundle.getString(CreateScheduleActivity.EXTRA_OBJECT_ID));
+        }
 
         CreateScheduleFragment fragment = new CreateScheduleFragment();
         fragment.setArguments(args);
@@ -75,6 +82,11 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
         super.onViewCreated(view, savedInstanceState);
         ((CreateScheduleActivity) getActivity()).setupToolbar(toolbar);
         setDay();
+
+        if (getArguments().containsKey(ARG_OBJECT_ID)) {
+            edited = true;
+            presenter.loadSchedule(getArguments().getString(ARG_OBJECT_ID));
+        }
     }
 
     @OnClick(R.id.time_picker_view)
@@ -85,7 +97,13 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     }
 
     @OnClick(R.id.button_submit)
-    void onSubmitButtonClick() { presenter.onSubmitClick(); }
+    void onSubmitButtonClick() {
+        if (!edited) {
+            presenter.onSubmitClick();
+        } else {
+            presenter.onUpdateClick();
+        }
+    }
 
     @Override
     public void setDay() {
@@ -129,6 +147,24 @@ public class CreateScheduleFragment extends BaseFragment implements CreateSchedu
     @Override
     public void finishCreateSchedule(int day) {
         controller.finishCreateSchedule(day);
+    }
+
+    @Override
+    public void setTitleEditTExt(String title) {
+        titleTextInputLayout.getEditText().setText(title);
+    }
+
+    @Override
+    public void setTimeView(String time) {
+        timePickerView.setHour(TimeUtil.getHourFromString(time));
+        timePickerView.setMinute(TimeUtil.getMinuteFromString(time));
+    }
+
+    @Override
+    public void setCurrentDay(String day) {
+        int dayOnPosition = ConvertUtil.convertToDayPositionOnPage(day);
+        RadioButton radChild = (RadioButton) dayRadGroup.getChildAt(dayOnPosition);
+        radChild.setChecked(true);
     }
 
     @Override

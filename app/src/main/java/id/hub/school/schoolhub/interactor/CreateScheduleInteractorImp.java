@@ -1,26 +1,18 @@
 package id.hub.school.schoolhub.interactor;
 
-import android.app.AlarmManager;
-import android.app.Application;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
-
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.Calendar;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import id.hub.school.schoolhub.model.data.ScheduleObject;
 import id.hub.school.schoolhub.presenter.CreateScheduleListener;
-import id.hub.school.schoolhub.service.NotifyService;
-import id.hub.school.schoolhub.utils.ConvertUtil;
-import id.hub.school.schoolhub.utils.TimeUtil;
 
 @Singleton
 public class CreateScheduleInteractorImp implements CreateScheduleInteractor {
@@ -32,12 +24,14 @@ public class CreateScheduleInteractorImp implements CreateScheduleInteractor {
     public void validateCreateSchedule(String title, final String day, final String time,
                                        final CreateScheduleListener listener) {
         ScheduleObject object = new ScheduleObject();
+        UUID uuid = UUID.randomUUID();
+        object.setUuid(uuid.toString());
         object.setTitle(title);
         object.setDay(day);
         object.setTime(time);
         object.setUser(ParseUser.getCurrentUser());
         object.setNotification(true);
-        object.pinInBackground(new SaveCallback() {
+        object.pinInBackground("all_schedule", new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
@@ -48,4 +42,45 @@ public class CreateScheduleInteractorImp implements CreateScheduleInteractor {
             }
         });
     }
+
+    @Override
+    public void findSchedule(String objectId, final CreateScheduleListener listener) {
+        ParseQuery<ScheduleObject> query = ScheduleObject.getQuery();
+        query.fromLocalDatastore();
+        query.whereEqualTo(ScheduleObject.UUID, objectId);
+        query.getFirstInBackground(new GetCallback<ScheduleObject>() {
+            @Override
+            public void done(ScheduleObject object, ParseException e) {
+                if (e == null) {
+                    listener.successGetObject(object);
+                } else {
+                    listener.failetGetObject(e.getMessage());
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void updateSchedule(ScheduleObject object, final String title, final String day,final String time,
+                               final CreateScheduleListener listener) {
+        object.setTitle(title);
+        object.setDay(day);
+        object.setTime(time);
+        object.setUser(ParseUser.getCurrentUser());
+        object.setNotification(true);
+        object.pinInBackground("all_schedule", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    listener.updateSuccess();
+                } else {
+                    listener.updateFailed(e.getMessage());
+                }
+            }
+        });
+
+    }
+
+
 }

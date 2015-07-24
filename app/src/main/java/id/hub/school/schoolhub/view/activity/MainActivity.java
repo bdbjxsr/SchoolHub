@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,17 +30,19 @@ import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
+import id.hub.school.schoolhub.model.data.ScheduleObject;
 import id.hub.school.schoolhub.utils.TimeUtil;
 import id.hub.school.schoolhub.view.MainView;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.HomeFragment;
 import id.hub.school.schoolhub.view.fragment.ProgressDialogFragment;
 import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
+import id.hub.school.schoolhub.view.fragment.SchedulePageFragment;
 
 import static android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 
 public final class MainActivity extends BaseActivity implements MainView,
-        DiscussionFragment.Controller, ScheduleFragment.Controller {
+        DiscussionFragment.Controller, ScheduleFragment.Controller, SchedulePageFragment.Controller {
 
     public static final String TAG_LOADING = "loading";
     public static final int REQUEST_CODE_DISCUSSION_FORM = 100;
@@ -83,11 +87,6 @@ public final class MainActivity extends BaseActivity implements MainView,
         }
     }
 
-    private void initContentFragment() {
-        initDiscussionFragment();
-        initScheduleFragment();
-    }
-
     private Fragment initDiscussionFragment() {
         discussionFragment = new DiscussionFragment();
         return discussionFragment;
@@ -99,7 +98,7 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_NAV_ITEM, 0);
     }
@@ -293,6 +292,14 @@ public final class MainActivity extends BaseActivity implements MainView,
     public void navigateToCreateSchedule(int position) {
         Intent intent= new Intent(this, CreateScheduleActivity.class);
         intent.putExtra(CreateScheduleActivity.EXTRA_POSITION, position);
+        startActivityForResult(intent, REQUEST_CODE_CREATE_SCHEDULE);
+    }
+
+    @Override
+    public void navigateToEditSchedule(ScheduleObject object, int position) {
+        Intent intent= new Intent(this, CreateScheduleActivity.class);
+        intent.putExtra(CreateScheduleActivity.EXTRA_POSITION, position);
+        intent.putExtra(CreateScheduleActivity.EXTRA_OBJECT_ID, object.getUUID());
         startActivityForResult(intent, REQUEST_CODE_CREATE_SCHEDULE);
     }
 }

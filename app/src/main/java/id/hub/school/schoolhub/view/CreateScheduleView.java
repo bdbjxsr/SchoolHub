@@ -14,4 +14,10 @@ public interface CreateScheduleView extends LoadDataView {
     String getTime();
 
     void finishCreateSchedule(int day);
+
+    void setTitleEditTExt(String title);
+
+    void setTimeView(String time);
+
+    void setCurrentDay(String day);
 }

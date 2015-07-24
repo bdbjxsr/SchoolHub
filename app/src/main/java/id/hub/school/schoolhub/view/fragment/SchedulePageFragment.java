@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +17,21 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
+import id.hub.school.schoolhub.model.data.ScheduleObject;
 import id.hub.school.schoolhub.presenter.SchedulePresenter;
 import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.SchedulePageView;
 import id.hub.school.schoolhub.view.adapter.ScheduleAdapter;
 
-public class SchedulePageFragment extends BaseFragment implements SchedulePageView {
+public class SchedulePageFragment extends BaseFragment implements SchedulePageView, ScheduleAdapter.Listener {
     public static final String ARG_PAGE = "arg_page";
 
     @InjectView(R.id.list_item) ListView listView;
     @InjectView(R.id.empty) TextView empty;
 
     @Inject SchedulePresenter presenter;
+
+    private Controller controller;
 
     public static SchedulePageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -44,6 +46,10 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         SchoolHubApp.get(activity).component().inject(this);
+        if (! (activity instanceof  Controller)) {
+            throw new ClassCastException("Activity must implement " + Controller.class);
+        }
+        controller = (Controller) activity;
         presenter.setView(this);
     }
 
@@ -78,6 +84,7 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
 
     @Override
     public void showListSchedule(ScheduleAdapter adapter) {
+        adapter.setListener(this);
         hideProgress();
         if (listView != null) listView.setAdapter(adapter);
     }
@@ -102,4 +109,13 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
     @Override
     public Context getContext() { return getActivity(); }
 
+    @Override
+    public void onItemClick(View v) {
+        ScheduleObject object = (ScheduleObject) v.getTag();
+        controller.navigateToEditSchedule(object, getArguments().getInt(ARG_PAGE));
+    }
+
+    public interface Controller {
+        void navigateToEditSchedule(ScheduleObject object, int position);
+    }
 }

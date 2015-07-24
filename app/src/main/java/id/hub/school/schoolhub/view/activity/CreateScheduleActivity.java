@@ -14,6 +14,7 @@ import id.hub.school.schoolhub.view.fragment.CreateScheduleFragment.Controller;
 public class CreateScheduleActivity extends BaseActivity implements Controller {
 
     public static final String EXTRA_POSITION = "extra_position";
+    public static final String EXTRA_OBJECT_ID = "extra_object_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class CreateScheduleActivity extends BaseActivity implements Controller {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(android.R.id.content,
-                            CreateScheduleFragment.newInstance(bundle.getInt(EXTRA_POSITION)))
+                            CreateScheduleFragment.newInstance(bundle))
                     .commit();
         }
     }
