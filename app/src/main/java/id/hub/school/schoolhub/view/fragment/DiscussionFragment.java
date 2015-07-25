@@ -3,7 +3,6 @@ package id.hub.school.schoolhub.view.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,7 +37,7 @@ import id.hub.school.schoolhub.view.widget.decorator.DividerItemDecoration;
 
 public class DiscussionFragment extends BaseFragment implements DiscussionView, ClickListener {
 
-    public static final String STATE_LIST_PARCELABLE = "state_list_parcelable";
+    //public static final String STATE_LIST_PARCELABLE = "state_list_parcelable";
     @InjectView(R.id.fab) FloatingActionButton fab;
     @InjectView(R.id.loading_view) LoadingView loadingView;
     @InjectView(R.id.recyclerview) RecyclerView recyclerView;
@@ -54,7 +53,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     private LinearLayoutManager layoutManager;
     private boolean loading = false;
 
-    private List<RuangDiskusiObject> list;
+    //private List<RuangDiskusiObject> list;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,23 +82,6 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     public void onDetach() {
         controller = null;
         super.onDetach();
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(STATE_LIST_PARCELABLE)) {
-                list = savedInstanceState.getParcelable(STATE_LIST_PARCELABLE);
-                adapter.setList(list);
-            }
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(STATE_LIST_PARCELABLE, (Parcelable) list);
-        super.onSaveInstanceState(outState);
     }
 
     @Nullable
@@ -204,7 +186,7 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @Override
     public void reloadDiscussionRoom(List<RuangDiskusiObject> list) {
         if (list.size() >= 10) { list.add(null); }
-        this.list = list;
+        //this.list = list;
         adapter.setList(list);
         adapter.notifyDataSetChanged();
     }

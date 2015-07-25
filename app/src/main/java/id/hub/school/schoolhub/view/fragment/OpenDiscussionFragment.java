@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.AppBarLayout.OnOffsetChangedListener;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +38,8 @@ import id.hub.school.schoolhub.view.adapter.CommentAdapter;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussionView {
+public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussionView,
+        OnOffsetChangedListener {
 
     public static final String ARGS_OBJECT_ID = "args_object_id";
     public static final String ARGS_QUESTION = "arg_question";
@@ -47,6 +50,7 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @InjectView(R.id.recyclerview) RecyclerView recyclerView;
     @InjectView(R.id.empty) TextView empty;
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @InjectView(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     @Inject OpenDiscussionPresenter presenter;
     @Inject Tracker tracker;
@@ -95,9 +99,23 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        appBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        appBarLayout.removeOnOffsetChangedListener(this);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((OpenDiscussionActivity) getActivity()).setupToolbar(toolbar);
+
+        appBarLayout.addOnOffsetChangedListener(this);
 
         questionHeaderTextView.setText(getArguments().getString(ARGS_QUESTION));
 
@@ -209,6 +227,11 @@ public class OpenDiscussionFragment extends BaseFragment implements OpenDiscussi
     @Override
     public Context getContext() {
         return getActivity();
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        swipeRefreshLayout.setEnabled(i == 0);
     }
 
     public interface Controller {

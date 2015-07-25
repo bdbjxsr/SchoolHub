@@ -1,8 +1,5 @@
 package id.hub.school.schoolhub.model.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -11,7 +8,7 @@ import com.parse.ParseUser;
 import java.util.Date;
 
 @ParseClassName("RuangDiskusi")
-public class RuangDiskusiObject extends ParseObject implements Parcelable {
+public class RuangDiskusiObject extends ParseObject{
 
     public static final String KEY_USER = "user";
     public static final String KEY_JUDUL = "judul";
@@ -21,20 +18,6 @@ public class RuangDiskusiObject extends ParseObject implements Parcelable {
     public static final String KEY_COMMENT_COUNT = "commentCount";
 
     public RuangDiskusiObject() {}
-
-    protected RuangDiskusiObject(Parcel in) {}
-
-    public static final Creator<RuangDiskusiObject> CREATOR = new Creator<RuangDiskusiObject>() {
-        @Override
-        public RuangDiskusiObject createFromParcel(Parcel in) {
-            return new RuangDiskusiObject(in);
-        }
-
-        @Override
-        public RuangDiskusiObject[] newArray(int size) {
-            return new RuangDiskusiObject[size];
-        }
-    };
 
     public void setUser(ParseUser user) { put(KEY_USER, user); }
 
@@ -62,17 +45,4 @@ public class RuangDiskusiObject extends ParseObject implements Parcelable {
 
     public Date getCreatedDate() { return getCreatedAt(); }
 
-    @Override
-    public int describeContents() { return 0; }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getJudul());
-        dest.writeString(getKategori());
-        dest.writeString(getQuestion());
-        dest.writeInt(getCommentCount());
-        dest.writeValue(getUser());
-        dest.writeValue(getImage());
-        dest.writeValue(getCreatedDate());
-    }
 }
