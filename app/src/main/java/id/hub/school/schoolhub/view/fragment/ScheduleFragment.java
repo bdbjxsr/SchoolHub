@@ -11,12 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.lang.reflect.Field;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import id.hub.school.schoolhub.R;
+import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.presenter.SchedulePresenter;
 import id.hub.school.schoolhub.view.adapter.SchedulePageAdapter;
 import timber.log.Timber;
@@ -25,8 +31,11 @@ public class ScheduleFragment extends BaseFragment {
 
 
     public static final String ARG_DAY = "arg_day";
+
     @InjectView(R.id.tabs) TabLayout tabs;
     @InjectView(R.id.view_pager) ViewPager viewPager;
+
+    @Inject Tracker tracker;
 
     private Controller controller;
     private SchedulePageAdapter adapter;
@@ -43,6 +52,7 @@ public class ScheduleFragment extends BaseFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        SchoolHubApp.get(activity).component().inject(this);
         if (! (activity instanceof Controller)) {
             throw new ClassCastException("Activity must implement " + Controller.class);
         }
@@ -79,7 +89,14 @@ public class ScheduleFragment extends BaseFragment {
     }
 
     @OnClick(R.id.fab)
-    void onFABClick() { controller.navigateToCreateSchedule(viewPager.getCurrentItem()); }
+    void onFABClick() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("FAB")
+                .setAction("click")
+                .setLabel("Create New Schedule")
+                .build());
+        controller.navigateToCreateSchedule(viewPager.getCurrentItem());
+    }
 
     public interface Controller {
         void navigateToCreateSchedule(int position);

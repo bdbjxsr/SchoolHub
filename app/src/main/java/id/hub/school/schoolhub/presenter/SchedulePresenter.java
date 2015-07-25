@@ -1,5 +1,8 @@
 package id.hub.school.schoolhub.presenter;
 
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -44,5 +47,20 @@ public class SchedulePresenter implements BasePresenter {
         if (view != null) {
             view.showListSchedule(new ScheduleAdapter(view.getContext(), factory));
         }
+    }
+
+    public void deleteObject(ScheduleObject object) {
+        view.showProgress();
+        object.unpinInBackground(ScheduleObject.ALL_SCHEDULE, new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    view.hideProgress();
+                    view.reloadList();
+                } else {
+                    view.showError(e.getMessage());
+                }
+            }
+        });
     }
 }

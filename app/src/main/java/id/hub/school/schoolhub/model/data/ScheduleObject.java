@@ -14,6 +14,7 @@ public class ScheduleObject extends ParseObject {
     public static final String TIME = "time";
     public static final String DAY = "day";
     public static final String NOTIFICATION = "notification";
+    public static final String ALL_SCHEDULE = "all_schedule";
 
     public String getTITLE() { return getString(TITLE); }
 

@@ -302,4 +302,10 @@ public final class MainActivity extends BaseActivity implements MainView,
         intent.putExtra(CreateScheduleActivity.EXTRA_OBJECT_ID, object.getUUID());
         startActivityForResult(intent, REQUEST_CODE_CREATE_SCHEDULE);
     }
+
+    // TODO fajar: not the best solution >.<
+    @Override
+    public void reloadAfterDelete(int page) {
+        replaceFragment(ScheduleFragment.newInstance(page-1));
+    }
 }

@@ -31,7 +31,7 @@ public class CreateScheduleInteractorImp implements CreateScheduleInteractor {
         object.setTime(time);
         object.setUser(ParseUser.getCurrentUser());
         object.setNotification(true);
-        object.pinInBackground("all_schedule", new SaveCallback() {
+        object.pinInBackground(ScheduleObject.ALL_SCHEDULE, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
@@ -69,7 +69,7 @@ public class CreateScheduleInteractorImp implements CreateScheduleInteractor {
         object.setTime(time);
         object.setUser(ParseUser.getCurrentUser());
         object.setNotification(true);
-        object.pinInBackground("all_schedule", new SaveCallback() {
+        object.pinInBackground(ScheduleObject.ALL_SCHEDULE, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {

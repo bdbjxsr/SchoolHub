@@ -1,7 +1,9 @@
 package id.hub.school.schoolhub.view.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import javax.inject.Inject;
 
@@ -23,13 +28,17 @@ import id.hub.school.schoolhub.utils.ConvertUtil;
 import id.hub.school.schoolhub.view.SchedulePageView;
 import id.hub.school.schoolhub.view.adapter.ScheduleAdapter;
 
-public class SchedulePageFragment extends BaseFragment implements SchedulePageView, ScheduleAdapter.Listener {
+public class SchedulePageFragment extends BaseFragment implements SchedulePageView,
+        ScheduleAdapter.Listener {
+
     public static final String ARG_PAGE = "arg_page";
+    public static final String LOADING_DIALOG = "loadingDialog";
 
     @InjectView(R.id.list_item) ListView listView;
     @InjectView(R.id.empty) TextView empty;
 
     @Inject SchedulePresenter presenter;
+    @Inject Tracker tracker;
 
     private Controller controller;
 
@@ -78,22 +87,28 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         listView.setEmptyView(empty);
-        showProgress();
         presenter.loadSchedule(ConvertUtil.convertToDayName(getArguments().getInt(ARG_PAGE)));
     }
 
     @Override
     public void showListSchedule(ScheduleAdapter adapter) {
         adapter.setListener(this);
-        hideProgress();
         if (listView != null) listView.setAdapter(adapter);
     }
 
     @Override
-    public void showProgress() {}
+    public void reloadList() { controller.reloadAfterDelete(getArguments().getInt(ARG_PAGE)); }
 
     @Override
-    public void hideProgress() {}
+    public void showProgress() {
+        ProgressDialogFragment.show(getString(R.string.message_loading),
+                getChildFragmentManager(), LOADING_DIALOG);
+    }
+
+    @Override
+    public void hideProgress() {
+        ProgressDialogFragment.dismiss(getChildFragmentManager(), LOADING_DIALOG);
+    }
 
     @Override
     public void showRetry() {}
@@ -111,11 +126,45 @@ public class SchedulePageFragment extends BaseFragment implements SchedulePageVi
 
     @Override
     public void onItemClick(View v) {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Schedule")
+                .setAction("click")
+                .setLabel("Edit Schedule")
+                .build());
+
         ScheduleObject object = (ScheduleObject) v.getTag();
         controller.navigateToEditSchedule(object, getArguments().getInt(ARG_PAGE));
     }
 
+    @Override
+    public void onLongItemClick(View v) {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Schedule")
+                .setAction("long click")
+                .setLabel("Delete schedule")
+                .build());
+
+        final ScheduleObject object = (ScheduleObject) v.getTag();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Delete " + object.getTITLE());
+        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.deleteObject(object);
+            }
+        });
+        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.create().show();
+    }
+
     public interface Controller {
         void navigateToEditSchedule(ScheduleObject object, int position);
+
+        void reloadAfterDelete(int page);
     }
 }

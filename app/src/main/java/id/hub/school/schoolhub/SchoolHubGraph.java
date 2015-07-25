@@ -3,6 +3,7 @@ package id.hub.school.schoolhub;
 import id.hub.school.schoolhub.view.activity.AuthenticateActivity;
 import id.hub.school.schoolhub.view.activity.CreateCommentActivity;
 import id.hub.school.schoolhub.view.activity.CreateDiscussionActivity;
+import id.hub.school.schoolhub.view.activity.CreateScheduleActivity;
 import id.hub.school.schoolhub.view.activity.EntranceActivity;
 import id.hub.school.schoolhub.view.activity.LoginActivity;
 import id.hub.school.schoolhub.view.activity.MainActivity;
@@ -16,6 +17,7 @@ import id.hub.school.schoolhub.view.fragment.CreateScheduleFragment;
 import id.hub.school.schoolhub.view.fragment.DiscussionFragment;
 import id.hub.school.schoolhub.view.fragment.LoginFragment;
 import id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment;
+import id.hub.school.schoolhub.view.fragment.ScheduleFragment;
 import id.hub.school.schoolhub.view.fragment.SchedulePageFragment;
 import id.hub.school.schoolhub.view.fragment.SignupFragment;
 
@@ -57,4 +59,8 @@ public interface SchoolHubGraph {
     void inject(SchedulePageFragment fragment);
 
     void inject(CreateScheduleFragment fragment);
+
+    void inject(CreateScheduleActivity activity);
+
+    void inject(ScheduleFragment fragment);
 }

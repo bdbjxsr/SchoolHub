@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -13,7 +14,8 @@ import butterknife.ButterKnife;
 import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.model.data.ScheduleObject;
 
-public class ScheduleAdapter extends ParseQueryAdapter<ScheduleObject> implements OnClickListener {
+public class ScheduleAdapter extends ParseQueryAdapter<ScheduleObject> implements OnClickListener,
+        OnLongClickListener {
 
     private Context context;
     private Listener listener;
@@ -45,6 +47,7 @@ public class ScheduleAdapter extends ParseQueryAdapter<ScheduleObject> implement
 
         v.setTag(object);
         v.setOnClickListener(this);
+        v.setOnLongClickListener(this);
 
         return v;
     }
@@ -54,6 +57,12 @@ public class ScheduleAdapter extends ParseQueryAdapter<ScheduleObject> implement
         if (listener != null) {
             listener.onItemClick(v);
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        listener.onLongItemClick(v);
+        return true;
     }
 
     public class ViewHolder {
@@ -68,5 +77,7 @@ public class ScheduleAdapter extends ParseQueryAdapter<ScheduleObject> implement
 
     public interface Listener {
         void onItemClick(View v);
+
+        void onLongItemClick(View v);
     }
 }
