@@ -3,6 +3,7 @@ package id.hub.school.schoolhub.model.data;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
@@ -18,6 +19,10 @@ public class RuangDiskusiObject extends ParseObject{
     public static final String KEY_COMMENT_COUNT = "commentCount";
 
     public RuangDiskusiObject() {}
+
+    public static ParseQuery<RuangDiskusiObject> getQuery() {
+        return ParseQuery.getQuery(RuangDiskusiObject.class);
+    }
 
     public void setUser(ParseUser user) { put(KEY_USER, user); }
 

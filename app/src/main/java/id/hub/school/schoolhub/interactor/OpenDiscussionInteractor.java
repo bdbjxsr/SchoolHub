@@ -8,5 +8,8 @@ public interface OpenDiscussionInteractor {
 
     void reloadCommentDiscussion(String objectId, OpenDiscussionListener listener);
 
-    void loadMoreCommentDiscussion(String objectId, int current_page, OpenDiscussionListener listener);
+    void loadMoreCommentDiscussion(String objectId, int current_page,
+                                   OpenDiscussionListener listener);
+
+    void getDiscussionFromLocal(String objectId, OpenDiscussionListener listener);
 }

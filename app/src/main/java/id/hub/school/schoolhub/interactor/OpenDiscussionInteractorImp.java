@@ -1,6 +1,7 @@
 package id.hub.school.schoolhub.interactor;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -33,7 +34,8 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
                 new ParseQuery<>(OpenDiscussionObject.class);
         query.include("user");
         query.include("ruangDiskusi");
-        query.setLimit(LIMIT);
+        //query.setLimit(LIMIT);
+        query.orderByAscending("createdAt");
         query.whereMatchesQuery("ruangDiskusi", ruangDiskusiObjectParseQuery);
         query.findInBackground(new FindCallback<OpenDiscussionObject>() {
             @Override
@@ -57,7 +59,8 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
                 new ParseQuery<>(OpenDiscussionObject.class);
         query.include("user");
         query.include("ruangDiskusi");
-        query.setLimit(LIMIT);
+        //query.setLimit(LIMIT);
+        query.orderByAscending("createdAt");
         query.whereMatchesQuery("ruangDiskusi", ruangDiskusiObjectParseQuery);
         query.findInBackground(new FindCallback<OpenDiscussionObject>() {
             @Override
@@ -82,8 +85,9 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
                 new ParseQuery<>(OpenDiscussionObject.class);
         query.include("user");
         query.include("ruangDiskusi");
-        query.setLimit(LIMIT);
+        //query.setLimit(LIMIT);
         query.setSkip(loadMore);
+        query.orderByAscending("createdAt");
         query.whereMatchesQuery("ruangDiskusi", ruangDiskusiObjectParseQuery);
         query.findInBackground(new FindCallback<OpenDiscussionObject>() {
             @Override
@@ -97,5 +101,23 @@ public class OpenDiscussionInteractorImp implements OpenDiscussionInteractor {
         });
     }
 
+    @Override
+    public void getDiscussionFromLocal(String objectId,
+                                       final OpenDiscussionListener listener) {
+        ParseQuery<RuangDiskusiObject> query = RuangDiskusiObject.getQuery();
+        query.fromLocalDatastore();
+        query.whereEqualTo("objectId", objectId);
+        query.getFirstInBackground(new GetCallback<RuangDiskusiObject>() {
+            @Override
+            public void done(RuangDiskusiObject object, ParseException e) {
+                if (e == null) {
+                    listener.getDiscussionFromLocalSuccess(object);
+                } else {
+                    listener.getDiscussionFromLocalFailed(e.getMessage());
+                }
+            }
+        });
 
+
+    }
 }

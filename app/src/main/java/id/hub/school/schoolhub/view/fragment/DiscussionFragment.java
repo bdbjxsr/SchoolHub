@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -226,22 +228,32 @@ public class DiscussionFragment extends BaseFragment implements DiscussionView, 
     @Override
     public void onItemClickListener(View view, int position) {
         DiscussionRoomAdapter adapter = (DiscussionRoomAdapter) recyclerView.getAdapter();
-        String objectId = adapter.getItem(position).getObjectId();
-        String question = adapter.getItem(position).getQuestion();
-        String type = adapter.getItem(position).getKategori();
 
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Row Item")
-                .setAction("click")
-                .setLabel(type + "/" + objectId)
-                .build());
+        final RuangDiskusiObject object = adapter.getItem(position);
+        object.pinInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    String objectId = object.getObjectId();
+                    String type = object.getKategori();
 
-        controller.navigateToDiscussionRoom(objectId, question);
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Row Item")
+                            .setAction("click")
+                            .setLabel(type + "/" + objectId)
+                            .build());
+
+                    controller.navigateToDiscussionRoom(objectId);
+                } else {
+                    showError(e.getMessage());
+                }
+            }
+        });
     }
 
     public interface Controller {
         void navigateToCreateDiscussion();
 
-        void navigateToDiscussionRoom(String id, String question);
+        void navigateToDiscussionRoom(String id);
     }
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/primary"
+    android:padding="16dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
+            tools:text="Siswa Satu" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
+            tools:text="10 minute ago" />
+    </FrameLayout>
+
+    <android.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        tools:text="What is it like for a former cop to be asked to pull over?" />
+
+    <android.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Permisi teman-teman.
+
+Mohon bantuannya masih rada bingung ttg jenis larutan.
+
+Daftar campuran dibawah ini termasuk larutan, koloid atau suspensi yah?
+
+1. Larutan gula
+2. Minyak tanah dengan air
+3. Tepung dengan air
+4. Susu dengan air
+5. Alkohol 70%
+6. Larutan garam
+7. Pasir dalam air" />
+</LinearLayout>

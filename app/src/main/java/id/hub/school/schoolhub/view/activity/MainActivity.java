@@ -270,10 +270,9 @@ public final class MainActivity extends BaseActivity implements MainView,
     }
 
     @Override
-    public void navigateToDiscussionRoom(String id, String question) {
+    public void navigateToDiscussionRoom(String id) {
         Intent intent = new Intent(this, OpenDiscussionActivity.class);
         intent.putExtra(OpenDiscussionActivity.EXTRA_OBJECT_ID, id);
-        intent.putExtra(OpenDiscussionActivity.EXTRA_QUESTION, question);
         startActivity(intent);
     }
 

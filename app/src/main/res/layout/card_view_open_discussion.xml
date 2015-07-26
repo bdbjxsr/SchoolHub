@@ -7,7 +7,7 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,8 +21,8 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif-light"
+            android:textSize="16sp"
             android:padding="12dp"
-            android:textSize="18sp"
             android:text="The quick, brown fox jumps over a lazy dog jumps.." />
 
         <View
@@ -31,12 +31,22 @@
             android:layout_height="1dp"
             android:background="@color/divider"/>
 
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="10 minute ago"
+            android:fontFamily="sans-serif-light"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/secondary_text"
+            android:layout_marginRight="12dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/answer"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="12dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleview"
@@ -58,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textSize="12sp"
-                    android:text="Fajar Purwo Nugroho" />
+                    tools:text="Fajar Purwo Nugroho" />
 
                 <TextView
                     android:id="@+id/school"
@@ -66,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textSize="12sp"
-                    android:text="SMA Negeri 14 Jakarta" />
+                    tools:text="SMA Negeri 14 Jakarta" />
             </LinearLayout>
 
             <LinearLayout

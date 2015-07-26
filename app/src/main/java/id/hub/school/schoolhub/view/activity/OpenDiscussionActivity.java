@@ -2,8 +2,6 @@ package id.hub.school.schoolhub.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -13,16 +11,15 @@ import com.google.android.gms.analytics.Tracker;
 
 import javax.inject.Inject;
 
-import id.hub.school.schoolhub.R;
 import id.hub.school.schoolhub.SchoolHubApp;
 import id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment;
 
-import static id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment.*;
+import static id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment.Controller;
+import static id.hub.school.schoolhub.view.fragment.OpenDiscussionFragment.newInstance;
 
 public class OpenDiscussionActivity extends BaseActivity implements Controller {
 
     public static final String EXTRA_OBJECT_ID = "extra_object_id";
-    public static final String EXTRA_QUESTION = "extra_question";
     public static final int CREATE_COMMENT_REQUEST_CODE = 10057;
     public static final String TAG_DISCUSSION = "tag_discussion";
 
@@ -37,6 +34,7 @@ public class OpenDiscussionActivity extends BaseActivity implements Controller {
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -52,17 +50,11 @@ public class OpenDiscussionActivity extends BaseActivity implements Controller {
 
         if (savedInstanceState == null) {
             OpenDiscussionFragment fragment =
-                    newInstance(bundle.getString(EXTRA_OBJECT_ID, ""),
-                            bundle.getString(EXTRA_QUESTION, ""));
+                    OpenDiscussionFragment.newInstance(bundle.getString(EXTRA_OBJECT_ID, ""));
             getSupportFragmentManager().beginTransaction()
                     .add(android.R.id.content, fragment, TAG_DISCUSSION)
                     .commit();
         }
-    }
-
-    private void openFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, fragment).commit();
     }
 
     @Override
@@ -81,8 +73,6 @@ public class OpenDiscussionActivity extends BaseActivity implements Controller {
 
         if (requestCode == CREATE_COMMENT_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Bundle bundle = getIntent().getExtras();
-                // TODO fajar: tell fragment to reload list comment
                 OpenDiscussionFragment fragment = (OpenDiscussionFragment) getSupportFragmentManager()
                         .findFragmentByTag(TAG_DISCUSSION);
                 fragment.reloadComment();

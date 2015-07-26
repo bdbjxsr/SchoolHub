@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import id.hub.school.schoolhub.interactor.OpenDiscussionInteractorImp;
 import id.hub.school.schoolhub.model.data.OpenDiscussionObject;
+import id.hub.school.schoolhub.model.data.RuangDiskusiObject;
 import id.hub.school.schoolhub.view.OpenDiscussionView;
 
 @Singleton
@@ -68,15 +69,31 @@ public class OpenDiscussionPresenter implements BasePresenter, OpenDiscussionLis
     @Override
     public void onReloadSuccess(List<OpenDiscussionObject> list) {
         view.hideRefresh();
+        view.hideProgress();
         view.hideEmptyTextView();
         view.reloadList(list);
     }
 
+    @Override
+    public void getDiscussionFromLocalSuccess(RuangDiskusiObject object) {
+        view.showQuestion(object);
+    }
+
+    @Override
+    public void getDiscussionFromLocalFailed(String message) {
+        view.showError(message);
+    }
+
     public void refreshComment(String objectId) {
+        view.showProgress();
         interactorImp.reloadCommentDiscussion(objectId, this);
     }
 
     public void loadMoreComment(String objectId, int loadMore) {
         interactorImp.loadMoreCommentDiscussion(objectId, loadMore, this);
+    }
+
+    public void getDiscussionFromLocal(String objectId) {
+        interactorImp.getDiscussionFromLocal(objectId, this);
     }
 }
