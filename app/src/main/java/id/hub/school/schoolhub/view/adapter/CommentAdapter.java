@@ -73,8 +73,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder> 
             return VIEW_TYPE_QUESTION;
         } else if (item instanceof OpenDiscussionObject) {
             return VIEW_TYPE_NORMAL;
-        } else if () {
-
         } else {
             throw new IllegalArgumentException("Invalid item type " + item.getClass());
         }
@@ -93,6 +91,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder> 
                 return new CommentViewHolder(parent);
             case VIEW_TYPE_LOADING:
                 return new ProgressBarViewHolder(parent);
+            case VIEW_TYPE_EMPTY:
+                return new EmptyViewHolder(parent);
             default:
                 throw new IllegalArgumentException("Invalid type");
         }

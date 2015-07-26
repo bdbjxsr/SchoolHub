@@ -3,6 +3,7 @@ package id.hub.school.schoolhub.interactor;
 import android.text.TextUtils;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -30,18 +31,28 @@ public class CreateCommentInteractorImp implements CreateCommentInteractor {
         final RuangDiskusiObject ruangDiskusiObject =
                 ParseObject.createWithoutData(RuangDiskusiObject.class, objectId);
 
-        OpenDiscussionObject object = new OpenDiscussionObject();
-        object.setAnswer(answer);
-        object.setRuangDiskusi(ruangDiskusiObject);
-        object.setUser(ParseUser.getCurrentUser());
-        object.saveInBackground(new SaveCallback() {
+        ParseQuery<RuangDiskusiObject> query = RuangDiskusiObject.getQuery();
+        query.fromLocalDatastore();
+        query.whereEqualTo("objectId", objectId);
+        query.getFirstInBackground(new GetCallback<RuangDiskusiObject>() {
+            @Override
+            public void done(RuangDiskusiObject object, ParseException e) {
+                if (e == null) {
+                    object.setCommentCount(object.getCommentCount() + 1);
+                    object.saveInBackground();
+                }
+            }
+        });
+
+        OpenDiscussionObject openDiscussionObject = new OpenDiscussionObject();
+        openDiscussionObject.setAnswer(answer);
+        openDiscussionObject.setRuangDiskusi(ruangDiskusiObject);
+        openDiscussionObject.setUser(ParseUser.getCurrentUser());
+        openDiscussionObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     listener.onSuccessCreateComment();
-
-                    ruangDiskusiObject.setCommentCount(1);
-                    ruangDiskusiObject.saveInBackground();
                 } else {
                     listener.onFailedCreateComment(e.getMessage());
                 }
